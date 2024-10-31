@@ -15,16 +15,64 @@
         <!-- May not be required -->
     </header>
     <main>
-        <h1>Pior's Weekly Planner</h1>
-        <div id="calendar">
-            <div id="first-col-spacer"></div>
+        <h1 id="calendar-header">Pior's Weekly Planner</h1>
+<!--         
+        <form id="activity-form-v1" class="">
+          <h1 id="activity-header" class="">Add an activity: </h1>
+          <div>
+            <label for="activity-name" class="">Activity Name: </label>
+            <input id="activity-name" type="text" />
+          </div>
+          <div>
+            <label for="activity-duration" class=""> Duration: </label>
+            <select id="activity-duration" type="activity-times">
+              <option value="30-minutes">30 minutes</option>
+              <option value="60-minutes">60 minutes</option>
+            </select>
+          </div>
+          <div>
+            <label for="activity-location" class="">Location: </label>
+            <input id="activity-location" type="text" />
+          </div>
+          <div>
+            <label for="activity-description" class="">Description: </label>
+            <input id="activity-description" type="textbox" />
+          </div>
+
+          <div>
+            <input type="submit" id="activity-submit" value="Save" />
+            <input type="submit" id="activity-submit" value="Close" />
+          </div>
+        </form> -->
+        
+        <form id="activity-form" class="hidden">
+            <h2 id="activity-header" class="hidden">Add an activity: </h2>
+            <input id="activity-name" type="text" placeholder="Add title"/>
+            <select id="activity-duration" type="activity-times">
+              <!-- Possibly add 15 and 45min intervals later -->
+              <option value="30-minutes">30 minutes</option>
+              <option value="60-minutes">60 minutes</option>
+            </select>
+
+            <input id="activity-location" type="text" placeholder="Add location"/>
+            <textarea id="activity-description" type="textbox" placeholder="Add description"></textarea>
+
+        
+          <div >
+            <input class="save-close-buttons" type="submit" id="activity-submit" value="Save" />
+            <input class="save-close-buttons" type="submit" id="activity-close" value="Close" />
+          </div>
+        </form>
+        <div id="calendar" class="container">
+            <div id="first-col-spacer" class="sticky"></div>
+            
         </div>
     </main>
-    <footer>
+    <!-- <footer> -->
         <!-- can add github, linkedIn and stuff -->
         <!-- <p>Made by pior</p> -->
         <!-- <a href="https://github.com/iPior" alt="github link"><p>GitHub: iPior</a></p> -->
-    </footer>
+    <!-- </footer> -->
     <script src="script.js"></script>
   </body>
 </html>

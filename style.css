@@ -1,27 +1,92 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
-
+html, body {
+    height: 100%;
+}
 body {
+    /* height: 100%; */
     margin: 5%  10% 0% 10%;
     background-color: whitesmoke;
     overflow: hidden;
 }
 
 h1 {
+    display: flex;
     font-size: 3em;
+    height: 9%;
+    margin: auto;
+    margin-bottom: 1%;
+    /* justify-content: ; */
+}
+
+main {
+    height: 75%;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    background-color: lightgray;
+    /* justify-content: space-between; */
+    margin: auto;
+    height: auto;
+    width: 50%;
+    /* background-color: red; */
+    border: 2px black solid;
+    box-shadow: 0px 0px 5px 8px rgba(0, 0, 0, 0.12);
+    padding: 8px;
+    position: absolute;
+    top: 20%;
+    left: 25%;
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin: 0 ;
+    margin-bottom: 1%;
+}
+
+form input, form select, textarea {
+    font-size: 1.5rem;
+    margin-top: 2%;
+    padding: 6px;
+    
+}
+
+form textarea {
+    resize: none;
+}
+
+
+form select {
+    width: 51%;
+    font-size: 1rem;
+}
+
+.save-close-buttons {
+    width: 25%;
+    /* height: 100; */
+}
+
+#activity-description {
+    height: 250px;
+    text-align: start;
 }
 
 #calendar {
     display: grid;
     grid-template-columns: 9% repeat(7, 13%);
+    /* grid-template-rows: auto; */
+    height: 90%;
     justify-content: center;
-    max-height: 750px;
     overflow-x: auto ;
     overflow-y: auto;
+    /* position: absolute; */
 }
 
 #first-col-spacer {
     border-right: 2px solid black;
     border-bottom: 2px solid black;
+    background-color: whitesmoke;
 } 
 
 .rowHeader, .colHeader {
@@ -36,9 +101,14 @@ h1 {
     border-top: 2px solid black;
     border-right: 2px solid black;
     border-bottom: 2px solid black;
+
+
 }
 
-
+.sticky {
+    position: sticky;
+    top: 0;
+}
 
 .rowHeader{
     border-left: 2px solid black;
@@ -57,18 +127,18 @@ h1 {
 }
 
 
-input {
+button {
     border: none;
     border-right: 2px solid black;
     /* border-left: 1px solid black; */
 }
 
-input:nth-last-of-type(-n + 7){
+button:nth-last-of-type(-n + 7){
     border-bottom: 2px solid black;
     /* border-right: 1px solid black; */
 }
 
-input:hover {
+button:hover:enabled {
     background-color: darkgray;
     /* border-top: 1px darkgra black;
     border-bottom: 1px dotted black; */
@@ -100,3 +170,11 @@ footer p {
     font-weight: 500;
     font-style: normal;
   }
+
+.hidden {
+    display: none !important;
+}
+
+.stop-scrolling {
+    overflow: hidden !important;
+}

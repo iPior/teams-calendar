@@ -1,12 +1,16 @@
+const container = document.getElementById("calendar");
+const form = document.getElementById("activity-form");
+const calendarHeader = document.getElementById("calendar-header");
+const activityHeader = document.getElementById("activity-header");
+let buttonsEnabled = true;
 
 // Upon loading the window, create the calendar
 window.onload = () => {
-    const container = document.getElementById("calendar");
-
+    
     // Function to create a row
     const createLabel = (title, rowCol) => {
         const label = document.createElement("div");
-        rowCol === "row" ? label.className = "rowHeader" : label.className = "colHeader"; 
+        rowCol === "row" ? label.className = "rowHeader" : label.classList.add("colHeader", "sticky"); 
         label.textContent = title;
         container.appendChild(label);
     }
@@ -23,29 +27,67 @@ window.onload = () => {
         
         createLabel(time, "row")
         daysOfTheWeek.forEach(day => {
-            const input = document.createElement("input");
+            const input = document.createElement("button");
             input.type = "text";
             input.id = `${day}-${time}`;
             time.slice(3,5) === "30" ? input.className = "hour-mark" : input.className = "half-hour-mark";
             input.classList.add(day)
             input.ariaLabel = `${day}-${time}`;
-            input.onchange = update;
+            input.onclick = update;
             container.appendChild(input);
         })
     })
 
-    const rows = document.getElementsByClassName("Monday");
-    console.log(rows)
 }
 
 // Onchange to input, this function is called.
 const update = event => {
     const element = event.target;
-    const value = element.value.replace(/\s/g, "");
-    if (!value.includes(element.id)) {
-      console.log(value)
+    const elementId = element.id;
+    const elementClass = element.className;
+    console.log(element)
+    triggerForm();
+
+}
+
+const triggerForm = () => {
+    // If the form is hidden, show it
+    if (form.classList.contains("hidden")){
+        // container.classList.add("hidden");
+        
+        form.style.zIndex = "1";
+        form.classList.remove("hidden");
+        activityHeader.classList.remove("hidden");
+
+        container.classList.add("stop-scrolling");
+        container.style.opacity = "10%";
+        calendarHeader.style.opacity = "10%";
+        disableButtons()
+        return
     }
-  }
+    // Else, do the reverse action
+    form.style.zIndex = "0";
+    form.classList.add("hidden");
+    activityHeader.classList.add("hidden");
+
+    container.classList.remove("stop-scrolling");
+    container.style.opacity = "100%";
+    calendarHeader.style.opacity = "100%";
+    disableButtons()
+}
+
+const disableButtons = () => {
+    const buttons = document.querySelectorAll("button");
+
+    if (buttonsEnabled) {
+        buttons.forEach(button => button.disabled=true)
+        buttonsEnabled = false;
+    }
+    else {
+        buttons.forEach(button => button.disabled=false);
+        buttonsEnabled =true;
+    }
+}
 
 /* Function to create an array of times with 30 minute intervals, 
 code from "https://gist.github.com/indexzero/6261ad9292c78cf3c5aa69265e2422bf". Modified for personal need.

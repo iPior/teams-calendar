@@ -56,7 +56,6 @@ form textarea {
     resize: none;
 }
 
-
 form select {
     width: 51%;
     font-size: 1rem;
@@ -81,6 +80,7 @@ form select {
     overflow-x: auto ;
     overflow-y: auto;
     /* position: absolute; */
+    z-index: 1;
 }
 
 #first-col-spacer {
@@ -127,21 +127,17 @@ form select {
 }
 
 
-button {
+.timeslot{
     border: none;
     border-right: 2px solid black;
-    /* border-left: 1px solid black; */
 }
 
-button:nth-last-of-type(-n + 7){
+.timeslot:nth-last-of-type(-n + 7){
     border-bottom: 2px solid black;
-    /* border-right: 1px solid black; */
 }
 
-button:hover:enabled {
+.hover:hover {
     background-color: darkgray;
-    /* border-top: 1px darkgra black;
-    border-bottom: 1px dotted black; */
 }
 
 .half-hour-mark {

@@ -21,7 +21,7 @@
           <input id="activity-name" type="text" placeholder="Add title" required/>
           <select id="activity-duration" type="activity-times" required>
             <!-- Possibly add 15 and 45min intervals later -->
-            <option value="30-minutes">30 minutes</option>
+            <option value="30-minutes" selected="selected">30 minutes</option>
             <option value="60-minutes">60 minutes</option>
           </select>
           <input id="activity-location" type="text" placeholder="Add location"/>
@@ -29,6 +29,8 @@
           <div >
             <input class="save-close-buttons" type="button" id="activity-submit" value="Save" />
             <input class="save-close-buttons" type="button" id="activity-close" value="Close" />
+            <!-- <button class="save-close-buttons" type="button" id="activity-submit" value="Save">Save</button> -->
+            <!-- <button class="save-close-buttons" type="button" id="activity-close" value="Close">Close</button> -->
           </div>
         </form>
         <div id="calendar" class="container">

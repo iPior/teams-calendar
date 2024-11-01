@@ -3,6 +3,14 @@ const form = document.getElementById("activity-form");
 const calendarHeader = document.getElementById("calendar-header");
 const activityHeader = document.getElementById("activity-header");
 let buttonsEnabled = true;
+let formEnabled = true;
+
+const activityName = document.getElementById("activity-name");
+const activityDuration = document.getElementById("activity-duration");
+const activityLocation = document.getElementById("activity-location");
+const activityDescription = document.getElementById("activity-description");
+const activitySaveButton = document.getElementById("activity-submit");
+const activityCloseButton = document.getElementById("activity-close");
 
 // Upon loading the window, create the calendar
 window.onload = () => {
@@ -40,40 +48,86 @@ window.onload = () => {
 
 }
 
+// const addEvent = (event) => {
+//     console.log(event.target)
+// }
+
 // Onchange to input, this function is called.
 const update = event => {
     const element = event.target;
-    const elementId = element.id;
-    const elementClass = element.className;
-    console.log(element)
     triggerForm();
 
-}
+    if (formEnabled){
+
+        var promise = new Promise(resolve => {
+            
+        })
+    }
+
+    activitySaveButton.addEventListener("click", () => {
+        element.innerText = activityName.value;
+        triggerForm();
+    });
+
+
+    activityCloseButton.addEventListener("click", () => {
+
+        triggerForm();
+    });
+
+
+    return
+};
+
+
+
+
+
 
 const triggerForm = () => {
     // If the form is hidden, show it
     if (form.classList.contains("hidden")){
-        // container.classList.add("hidden");
-        
+        activityName.value = "";
+        activityLocation.value = "";
+        activityDescription.value = "";
+
+        // Bring up the form 
         form.style.zIndex = "1";
         form.classList.remove("hidden");
         activityHeader.classList.remove("hidden");
-
+        // "Pause" the calendar
         container.classList.add("stop-scrolling");
         container.style.opacity = "10%";
         calendarHeader.style.opacity = "10%";
+        formEnabled = true;
         disableButtons()
-        return
+        // return
     }
-    // Else, do the reverse action
-    form.style.zIndex = "0";
-    form.classList.add("hidden");
-    activityHeader.classList.add("hidden");
+    else {
+        // Else, do the reverse action
+        form.style.zIndex = "0";
+        form.classList.add("hidden");
+        activityHeader.classList.add("hidden");
 
-    container.classList.remove("stop-scrolling");
-    container.style.opacity = "100%";
-    calendarHeader.style.opacity = "100%";
-    disableButtons()
+        container.classList.remove("stop-scrolling");
+        container.style.opacity = "100%";
+        calendarHeader.style.opacity = "100%";
+
+        formEnabled = false;
+        disableButtons()
+    }
+
+    // activitySaveButton.addEventListener("click", () => {
+    //     triggerForm();
+    // });
+
+
+    // activityCloseButton.addEventListener("click", () => {
+
+    //     triggerForm();
+    // });
+    return
+
 }
 
 const disableButtons = () => {
@@ -87,6 +141,7 @@ const disableButtons = () => {
         buttons.forEach(button => button.disabled=false);
         buttonsEnabled =true;
     }
+    return
 }
 
 /* Function to create an array of times with 30 minute intervals, 

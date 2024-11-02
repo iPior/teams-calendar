@@ -4,6 +4,7 @@ const calendarHeader = document.getElementById("calendar-header");
 const activityHeader = document.getElementById("activity-header");
 let elementsEnabled = true;
 let inputSelected = "";
+const activeTimeSlots = [];
 
 const activitySaveButton = document.getElementById("activity-submit");
 const activityCloseButton = document.getElementById("activity-close");
@@ -86,9 +87,10 @@ const closeModal = () => {
 }
 
 activitySaveButton.addEventListener("click", () => {
-    
+
+    const firstInput = document.getElementById(inputSelected.id);
+
     if (activityName.value === ""){
-        // alert("Please add a name")
         return
     }
 
@@ -98,7 +100,10 @@ activitySaveButton.addEventListener("click", () => {
         console.log(secondInput)
     }
     else {
-        // inputSelected.id.innerHTML = `<p><${activityName}</p>`;
+        firstInput.classList.add("active")
+        firstInput.classList.remove("hover")
+        activeTimeSlots.push(firstInput)
+        firstInput.innerHTML = `<h4>${activityName.value}</h4>`;
         // inputSelected
     }
 
@@ -145,7 +150,10 @@ const disableElements = () => {
         elementsEnabled = false;
     }
     else {
-        elements.forEach(el => el.classList.add("hover"));
+        elements.forEach(el => {
+           if (!activeTimeSlots.includes(el))
+            el.classList.add("hover")
+        });
         elementsEnabled =true;
     }
     return

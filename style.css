@@ -6,7 +6,7 @@ body {
     /* height: 100%; */
     margin: 5%  10% 0% 10%;
     background-color: whitesmoke;
-    overflow: hidden;
+    overflow-y: hidden;
 }
 
 h1 {
@@ -20,6 +20,8 @@ h1 {
 
 main {
     height: 75%;
+    /* width: 50%; */
+    
 }
 
 form {
@@ -57,7 +59,7 @@ form textarea {
 }
 
 form select {
-    width: 51%;
+    width: 49.5%;
     font-size: 1rem;
 }
 
@@ -74,10 +76,10 @@ form select {
 #calendar {
     display: grid;
     grid-template-columns: 9% repeat(7, 13%);
-    /* grid-template-rows: auto; */
+    grid-template-rows: 5;
     height: 90%;
     justify-content: center;
-    overflow-x: auto ;
+    overflow-x: auto;
     overflow-y: auto;
     /* position: absolute; */
     z-index: 1;
@@ -93,7 +95,7 @@ form select {
     background-color: lightgray;
     text-align: center;
     vertical-align: middle;
-    line-height: 40px;
+    line-height: 80px;
     padding: 1px;
 }
 
@@ -130,6 +132,27 @@ form select {
 .timeslot{
     border: none;
     border-right: 2px solid black;
+}
+
+span{
+    display: flex;
+    justify-content: start;
+    padding: 4px;
+
+    /* text-align: start; */
+} 
+
+.active {
+    background-color: burlywood;
+    border: none !important;
+    outline-offset: -3px;
+    outline: 1px red solid;
+    cursor: pointer;
+}
+
+span h4 {
+    margin: 0;
+    text-decoration: underline;
 }
 
 .timeslot:nth-last-of-type(-n + 7){
@@ -173,4 +196,31 @@ footer p {
 
 .stop-scrolling {
     overflow: hidden !important;
+}
+
+select {
+    font-weight: 700;
+}
+option {
+    font-weight: 700;
+}
+
+#blue {
+    color:blue;
+}
+
+#red{
+    color: red;
+}
+
+#green {
+    color: green;
+}
+
+#yellow {
+    color: yellow;
+}
+
+#pink {
+    color: pink;
 }

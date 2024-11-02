@@ -19,11 +19,21 @@
         <form id="activity-form" class="hidden">
           <h2 id="activity-header" class="hidden">Add an activity: </h2>
           <input id="activity-name" type="text" placeholder="Add title" required/>
-          <select id="activity-duration" type="activity-times" required>
-            <!-- Possibly add 15 and 45min intervals later -->
-            <option value="30-minutes" selected="selected">30 minutes</option>
-            <option value="60-minutes">60 minutes</option>
-          </select>
+          <div>
+            <select id="activity-duration" type="activity-times" required>
+              <!-- Possibly add 15 and 45min intervals later -->
+              <option value="30-minutes" selected="selected">30 minutes</option>
+              <option value="60-minutes">60 minutes</option>
+            </select>
+            <select id="activity-color" required>
+              <option id="grey" value="grey" selected="selected">Grey</option>
+              <option id="blue" value="blue" >Blue</option>
+              <option id="red" value="red" >Red</option>
+              <option id="green" value="green" >Green</option>
+              <option id="yellow" value="yellow" >Yellow</option>
+              <option id="pink" value="pink" >Pink</option>
+            </select>
+          </div>
           <input id="activity-location" type="text" placeholder="Add location"/>
           <textarea id="activity-description" type="textbox" placeholder="Add description"></textarea>
           <div >

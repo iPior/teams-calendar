@@ -8,7 +8,6 @@ let elementsEnabled = true;
 let inputSelected = "";
 const activeTimeSlots = [];
 
-
 const activitySaveButton = document.getElementById("activity-submit");
 const activityCloseButton = document.getElementById("activity-close");
 const activityName = document.getElementById("activity-name");
@@ -18,21 +17,53 @@ const activityDescription = document.getElementById("activity-description");
 
 // Upon loading the window, create the calendar
 window.onload = () => {
-    
+    createWeek();
+}
+
+const createWeek = () => {
+
+    const date = new Date();
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      };
+    const month = new Intl.DateTimeFormat("en-US", options).format(date);
+
+    const day = date.getDay();
+    const newDate = new Date(date.getDate() - day + (day == 0 ? -6 : 1));
+
+    let startOfTheWeek = newDate.getDay();
+
+    calendarHeader.innerText = "Week of " + month;
     // Function to create a row
     const createLabel = (title, rowCol) => {
         const label = document.createElement("div");
-        rowCol === "row" ? label.classList.add("rowHeader") : label.classList.add("colHeader", "sticky"); 
-        label.textContent = title;
+        if (rowCol === "row"){
+            label.classList.add("rowHeader")
+            label.innerHTML = `<p>${title}</p>`;
+        }
+        else {
+            label.classList.add("colHeader", "sticky")
+            label.innerHTML = `
+            <h6>${title.date < 10 ? '0' + title.date : title.date}</h6>
+            <p>${title.day}</p>
+            `;
+        }
         container.appendChild(label);
     }
 
     // Creating columns to be days of the week, and rows to be 30-minute time slots
-    const daysOfTheWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     const timeSlots = generateHoursInterval(60*7, 60 * 24, 30);
+    const daysOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const daysOfTheWeekTwo = []
+    for (let i = 0; i<7; i++){
+        daysOfTheWeekTwo.push({date: Number(startOfTheWeek) + i, day: daysOfTheWeek[i]})
+    }
 
     // Create a header label for every day fo the week
-    daysOfTheWeek.forEach(createLabel, "col");
+    daysOfTheWeekTwo.forEach(createLabel, "col");
 
     // Create a label for every timeSlot and  create an input for dayOfTheWeek
     timeSlots.forEach(time => {
@@ -49,9 +80,7 @@ window.onload = () => {
             container.appendChild(input);
         })
     })
-
 }
-
 
 // Onchange to input, this function is called.
 const update = event => {
@@ -68,11 +97,10 @@ const openModal = () => {
 
     form.style.zIndex = "1";
     form.classList.remove("hidden");
-    activityHeader.classList.remove("hidden");
     // "Pause" the calendar
     container.classList.add("stop-scrolling");
-    container.style.opacity = "10%";
-    calendarHeader.style.opacity = "10%";
+    container.style.opacity = "5%";
+    calendarHeader.style.opacity = "5%";
     disableElements()
 };
 
@@ -89,7 +117,6 @@ const closeModal = () => {
 
     form.style.zIndex = "0";
     form.classList.add("hidden");
-    activityHeader.classList.add("hidden");
 
     container.classList.remove("stop-scrolling");
     container.style.opacity = "100%";

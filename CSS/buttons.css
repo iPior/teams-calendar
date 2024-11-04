@@ -1,7 +1,7 @@
 /* Add grey activity */
 .grey-activity {
-    background-color: #ffbfbf;
-    border-left: 5px red solid;
+    background-color: lightgrey;
+    border-left: 5px darkgray solid;
 }
 
 .red-activity {
@@ -74,10 +74,12 @@
 .grey {
     background-color: lightgrey;
     border: 2px solid darkgrey;
+    /* outline: 1px solid black; */
 }
 .selected.grey {
     background-color: darkgrey;
     border: 2px solid darkgrey;
+    /* border-bottom: none; */
 }
 #btn-group #grey:hover {
     background-color: darkgrey !important;

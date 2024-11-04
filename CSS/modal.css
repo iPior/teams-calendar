@@ -1,0 +1,87 @@
+#activity-form-div {
+    width: 50%;
+    margin: auto;
+    position: absolute;
+    top: 20%;
+    left: 25%;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    background-color: lightgray;
+    /* justify-content: space-between; */
+    margin: auto;
+    /* height: auto; */
+    /* width: 50%; */
+    /* background-color: red; */
+    border: 2px black solid;
+    box-shadow: 0px 0px 5px 8px rgba(0, 0, 0, 0.12);
+    padding: 8px;
+}
+
+form input,
+form select,
+textarea,
+img {
+    font-size: 1.5rem;
+    margin-top: 2%;
+    padding: 6px;
+    width: 100%;
+
+}
+
+form .div-row {
+    display: flex;
+}
+
+form img {
+    margin-bottom: 2px;
+    margin-right: 8px;
+    height: 30px;
+    width: 30px;
+}
+
+form #btn-group-div {
+    margin-top: 2%;
+}
+
+form textarea {
+    resize: none;
+}
+
+form select {
+    width: 25%;
+    font-size: 1rem;
+}
+
+
+.save-close-buttons {
+    display: flex;
+    justify-content: end;
+
+    /* width: 100%; */
+    /* align-items: end; */
+    /* height: 100; */
+}
+
+.save-close-buttons input:first-child {
+    margin-right: 4px;
+}
+
+.save-close-buttons input {
+    margin-bottom: 1%;
+    width: 25%;
+    /* height: 100; */
+}
+
+
+#activity-description {
+    height: 250px;
+    text-align: start;
+}
+
+#btn-group-div {
+    /* width: 50%; */
+    display: flex;
+}

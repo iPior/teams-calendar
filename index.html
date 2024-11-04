@@ -8,7 +8,9 @@
     </title>
     
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="CSS/buttons.css">
+    <link rel="stylesheet" href="CSS/modal.css">
   </head>
   <body class="roboto-mono">
     <header>
@@ -16,33 +18,47 @@
     </header>
     <main>
         <h1 id="calendar-header">Pior's Weekly Planner</h1>
-        <form id="activity-form" class="hidden">
-          <h2 id="activity-header" class="hidden">Add an activity: </h2>
-          <input id="activity-name" type="text" placeholder="Add title" required/>
-          <div>
-            <select id="activity-duration" type="activity-times" required>
-              <!-- Possibly add 15 and 45min intervals later -->
-              <option value="30-minutes" selected="selected">30 minutes</option>
-              <option value="60-minutes">60 minutes</option>
-            </select>
-            <select id="activity-color" required>
-              <option id="grey" value="grey" selected="selected">Grey</option>
-              <option id="blue" value="blue" >Blue</option>
-              <option id="red" value="red" >Red</option>
-              <option id="green" value="green" >Green</option>
-              <option id="yellow" value="yellow" >Yellow</option>
-              <option id="pink" value="pink" >Pink</option>
-            </select>
+        <div id="activity-form-div" class="hidden">
+          <div id="btn-group-div">
+            <div id="btn-group">
+              <button class="grey selected" id="grey" value="grey"></button>
+              <button class="red" id="red" value="red"></button>
+              <button class="orange" id="orange" value="orange"></button>
+              <button class="yellow" id="yellow" value="yellow"></button>
+              <button class="green" id="green" value="green"></button>
+              <button class="blue" id="blue" value="blue"></button>
+              <button class="purple" id="purple" value="purple"></button>
+              <button class="pink" id="pink" value="pink"></button>
+            </div>
           </div>
-          <input id="activity-location" type="text" placeholder="Add location"/>
-          <textarea id="activity-description" type="textbox" placeholder="Add description"></textarea>
-          <div >
-            <input class="save-close-buttons" type="button" id="activity-submit" value="Save" />
-            <input class="save-close-buttons" type="button" id="activity-close" value="Close" />
-            <!-- <button class="save-close-buttons" type="button" id="activity-submit" value="Save">Save</button> -->
-            <!-- <button class="save-close-buttons" type="button" id="activity-close" value="Close">Close</button> -->
-          </div>
-        </form>
+          <form id="activity-form" class="grey hidden">
+            <div class="div-row">
+              <img src="imgs/title.png" alt="title">
+              <input id="activity-name" type="text" placeholder="Add title" required/>
+            </div>
+            <div class="div-row">
+              <!-- <label for="activity-duration">Duration: </label> -->
+              <img src="imgs/duration.png" alt="Duration: ">
+              <select id="activity-duration" type="activity-times" required>
+              <!-- Possibly add 15 and 45min intervals later -->{
+                <option value="30-minutes" selected="selected">30 minutes</option>
+                <option value="60-minutes">60 minutes</option>}
+              </select>
+            </div>
+            <div class="div-row">
+              <img src="imgs/location.png" alt="Location: ">
+              <input class="" id="activity-location" type="text" placeholder="Add location"/>
+            </div>
+            <div class="div-row">
+              <img src="imgs/description.png" alt="description: ">
+              <textarea id="activity-description" type="textbox" placeholder="Add description"></textarea>
+            </div>
+            <div class="div-row save-close-buttons">
+              <input class="" type="button" id="activity-submit" value="Save" />
+              <input class="" type="button" id="activity-close" value="Close" />
+            </div>
+          </form>
+        </div>
         <div id="calendar" class="container">
             <div id="first-col-spacer" class="sticky"></div>
         </div>

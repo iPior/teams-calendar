@@ -20,7 +20,7 @@ h1 {
 
 main {
     height: 75%;
-    /* width: 50%; */
+    width: 100%;
     
 }
 
@@ -54,12 +54,27 @@ form input, form select, textarea {
     
 }
 
+form #btn-group-div {
+    
+    margin-top: 2%;
+}
+
+form #btn-group-div label {
+    text-align: start;
+    align-items: center;
+}
+
+label {
+    width: 10%;
+    font-weight: 700;
+}
+
 form textarea {
     resize: none;
 }
 
 form select {
-    width: 49.5%;
+    /* width: 25%; */
     font-size: 1rem;
 }
 
@@ -78,6 +93,7 @@ form select {
     grid-template-columns: 9% repeat(7, 13%);
     grid-template-rows: 5;
     height: 90%;
+    width: 100%;
     justify-content: center;
     overflow-x: auto;
     overflow-y: auto;
@@ -100,11 +116,10 @@ form select {
 }
 
 .colHeader{
+    /* width: 100%; */
     border-top: 2px solid black;
     border-right: 2px solid black;
     border-bottom: 2px solid black;
-
-
 }
 
 .sticky {
@@ -128,31 +143,32 @@ form select {
     border-bottom: 2px solid black;
 }
 
-
 .timeslot{
     border: none;
     border-right: 2px solid black;
+    /* width: 100%; */
 }
 
-span{
-    display: flex;
-    justify-content: start;
-    padding: 4px;
-
-    /* text-align: start; */
-} 
-
-.active {
-    background-color: burlywood;
-    border: none !important;
-    outline-offset: -3px;
-    outline: 1px red solid;
+.activity {
+    height: 99%;
+    width: 90%;
+    margin: 1px 1px 1px 1px;
+    border-radius: 5%;
     cursor: pointer;
 }
 
-span h4 {
-    margin: 0;
-    text-decoration: underline;
+.activity h4, p {
+    margin: 0px 2px;
+    text-transform: uppercase;
+}
+
+.activity p {
+    font-size: small;
+    text-transform: capitalize;
+}
+
+.hour-long {
+    height: 199%;
 }
 
 .timeslot:nth-last-of-type(-n + 7){
@@ -179,6 +195,7 @@ footer {
     /* justify-content: space-between; */
 }
 
+
 footer p {
     padding: 2px;
 }
@@ -198,29 +215,140 @@ footer p {
     overflow: hidden !important;
 }
 
-select {
-    font-weight: 700;
-}
-option {
-    font-weight: 700;
+.red-activity {
+    background-color: #ffbfbf;
+    border-left: 5px red solid;
 }
 
-#blue {
-    color:blue;
+.orange-activity {
+    background-color: #ffd3ac;
+    border-left: 5px #ffa500 solid;
 }
 
-#red{
-    color: red;
+.yellow-activity {
+    background-color: #ffea99;
+    border-left: 5px #e0bc00 solid;
 }
 
-#green {
-    color: green;
+.green-activity {
+    background-color: #ccffcc;
+    border-left: 5px green solid;
 }
 
-#yellow {
-    color: yellow;
+.blue-activity {
+    background-color: #b5c7eb;
+    border-left: 5px blue solid;
 }
 
-#pink {
-    color: pink;
+.purple-activity {
+    background-color: #d3d3ff;
+    border-left: 5px #7f00ff solid;
+}
+
+.pink-activity {
+    background-color: pink;
+    border-left: 5px #ff8da1 solid;
+}
+
+
+#btn-group button {
+    /* font-weight: 400; */
+    padding: 10px 24px;
+    cursor: pointer;
+    float: left;
+    /* border-radius: 20% 20% 0% 0%; */
+    border-radius: 10%;
+}
+
+#btn-group-div {
+    display: flex;
+    text-align: center;
+    
+}
+
+
+#btn-group button:hover{
+    /* background-color: lightgray !important; ; */
+    transition: all .5s ease;
+    opacity: 100%;
+}
+
+#btn-group .selected {
+    border-radius: 10%;
+}
+
+#btn-group #grey {
+    border: 2px solid darkgrey;
+}
+
+.selected{
+    /* border-left: 5px red solid !important; */
+    /* border: 2px solid red; */
+}
+
+.deselected {
+    opacity: 50%;
+}
+
+#btn-group #red {
+    background-color: #ffbfbf;
+    border: 2px solid red;
+}
+
+#btn-group .red:hover {
+    background-color: red !important;
+}
+
+#btn-group .orange {
+    background-color: #ffd3ac;
+    border: 2px solid #ffa500;
+}
+
+#btn-group .orange:hover {
+    background-color: #ffa500;
+}
+
+#btn-group #yellow {
+    background-color: #ffea99;
+    border: 2px solid #e0bc00;
+}
+
+#btn-group #yellow:hover {
+    background-color: #e0bc00 !important;
+}
+
+#btn-group #green {
+    background-color: #ccffcc;
+    border: 2px solid green;   
+}
+#btn-group #green:hover {
+    background-color: green !important;
+}
+
+#btn-group #blue {
+    background-color: #b5c7eb;
+    border: 2px solid blue;
+}
+
+#btn-group #blue:hover {
+    background-color: blue !important;
+    color: white;
+}
+
+#btn-group #purple {
+    background-color: #d3d3ff;
+    border: 2px solid #7f00ff;
+}
+
+#btn-group #purple:hover {
+    background-color: #7f00ff !important;
+}
+
+#btn-group #pink {
+    background-color: pink;
+    border: 2px solid #ff8da1;
+}
+
+#btn-group #pink:hover {
+    background-color: #ff8da1 !important;
 }

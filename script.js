@@ -1,10 +1,13 @@
 const container = document.getElementById("calendar");
 const form = document.getElementById("activity-form");
+const formDiv = document.getElementById("activity-form-div");
 const calendarHeader = document.getElementById("calendar-header");
 const activityHeader = document.getElementById("activity-header");
+
 let elementsEnabled = true;
 let inputSelected = "";
 const activeTimeSlots = [];
+
 
 const activitySaveButton = document.getElementById("activity-submit");
 const activityCloseButton = document.getElementById("activity-close");
@@ -58,6 +61,11 @@ const update = event => {
 
 const openModal = () => {
     // Bring up the form 
+    setColor(greyButton); //Reset the color
+
+    formDiv.classList.remove("hidden")
+    formDiv.style.zIndex = "1";
+
     form.style.zIndex = "1";
     form.classList.remove("hidden");
     activityHeader.classList.remove("hidden");
@@ -76,6 +84,9 @@ const closeModal = () => {
     activityDescription.value = "";
 
     // Else, do the reverse action
+    formDiv.classList.add("hidden")
+    formDiv.style.zIndex = "0";
+
     form.style.zIndex = "0";
     form.classList.add("hidden");
     activityHeader.classList.add("hidden");
@@ -83,12 +94,15 @@ const closeModal = () => {
     container.classList.remove("stop-scrolling");
     container.style.opacity = "100%";
     calendarHeader.style.opacity = "100%";
-    disableElements()
+    disableElements();
+    
 }
 
 activitySaveButton.addEventListener("click", () => {
 
     const firstInput = document.getElementById(inputSelected.id);
+    const color = checkActiveColor();
+    console.log(color);
 
     if (activityName.value === ""){
         return
@@ -97,13 +111,28 @@ activitySaveButton.addEventListener("click", () => {
     // If the hour period is selected we need to identify the next input to style
     if (activityDuration.value === "60-minutes") {
         const secondInput = document.getElementById(getNextInput(inputSelected.id));
-        console.log(secondInput)
+        firstInput.classList.add("active");
+        secondInput.classList.add("active");
+        firstInput.classList.remove("hover");
+        secondInput.classList.remove("hover");
+        activeTimeSlots.push(firstInput,secondInput)
+        firstInput.innerHTML = `
+            <div class="activity hour-long ${color}">
+                <h4>${activityName.value}</h4>
+                <p>${activityDescription.value}</p>
+            </div>`;
+
+        console.log(activeTimeSlots)
     }
     else {
         firstInput.classList.add("active")
         firstInput.classList.remove("hover")
         activeTimeSlots.push(firstInput)
-        firstInput.innerHTML = `<h4>${activityName.value}</h4>`;
+        firstInput.innerHTML = `
+            <div class="activity ${color}">
+                <h4>${activityName.value}</h4>
+                <p>${activityDescription.value}</p>
+            </div>`;
         // inputSelected
     }
 
@@ -112,6 +141,55 @@ activitySaveButton.addEventListener("click", () => {
 });
 
 activityCloseButton.addEventListener("click", closeModal);
+
+const greyButton = document.getElementById("grey");
+const redButton = document.getElementById("red");
+const orangeButton = document.getElementById("orange");
+const yellowButton = document.getElementById("yellow");
+const greenButton = document.getElementById("green");
+const blueButton = document.getElementById("blue");
+const purpleButton = document.getElementById("purple");
+const pinkButton = document.getElementById("pink");
+
+const colors = ["grey", "red", "orange", "yellow", "green", "blue", "purple", "pink"];
+const colorButtons = [greyButton, redButton, orangeButton, yellowButton, greenButton, blueButton, purpleButton, pinkButton];
+
+greyButton.addEventListener("click", () => setColor(greyButton));
+redButton.addEventListener("click", () => setColor(redButton));
+orangeButton.addEventListener("click", () => setColor(orangeButton));
+yellowButton.addEventListener("click", () => setColor(yellowButton));
+greenButton.addEventListener("click", () => setColor(greenButton));
+blueButton.addEventListener("click", () => setColor(blueButton));
+purpleButton.addEventListener("click", () => setColor(purpleButton));
+pinkButton.addEventListener("click", () => setColor(pinkButton));
+
+// Function to generalie changing the color of the buttons
+const setColor = (button) => {
+    colors.forEach(color => {
+        if (form.classList.contains(color) && color !== button.id) {
+            form.classList.remove(color);
+        }
+    });
+    colorButtons.forEach(btn => {
+        if (btn.classList.contains("selected") && btn.id !== button.id) {
+            btn.classList.remove("selected");
+        }
+    });
+
+    button.classList.add("selected");
+    form.classList.add(button.id)
+}
+
+// Function to check what color the note needs to be
+const checkActiveColor = () => {
+    let color = "";
+    colorButtons.forEach(btn => {
+        if (btn.classList.contains("selected")) {
+            color = `${btn.id}-activity`;
+        }
+    });
+    return color;
+}
 
 const getNextInput = (str) => {
     let day = str.match(/^.*?-/i);

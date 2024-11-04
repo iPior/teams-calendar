@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+html {
+    height: 100%;
+}
+body {
+    height: 75%;
+    /* height: 100%; */
+    margin: 5%  10% 0% 10%;
+    background-color: whitesmoke;
+    /* overflow-y: hidden; */
+}
+
+h1 {
+    display: flex;
+    font-size: 3em;
+    height: 9%;
+    margin: auto;
+    margin-bottom: 1%;
+    /* justify-content: ; */
+}
+
+main {
+    height: 100%;
+    width: 100%;
+    
+}
+
+
+#calendar {
+    display: grid;
+    grid-template-columns: 9% repeat(7, 13%);
+    grid-template-rows: 5;
+    height: 90%;
+    width: 100%;
+    justify-content: center;
+    overflow-x: auto;
+    overflow-y: auto;
+    /* position: absolute; */
+    z-index: 1;
+}
+
+#first-col-spacer {
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    background-color: whitesmoke;
+} 
+
+.rowHeader, .colHeader {
+    background-color: lightgray;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 80px;
+    padding: 1px;
+}
+
+.colHeader{
+    /* width: 100%; */
+    border-top: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.sticky {
+    position: sticky;
+    top: 0;
+}
+
+.rowHeader{
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+}
+.rowHeader:nth-of-type(odd){
+    /* border-top: 1px solid black; */
+    border-bottom: 1px dotted black;
+}
+.rowHeader:nth-of-type(even){
+    /* border-top: 1px solid black; */
+    border-bottom: 1px solid black;
+}
+.rowHeader:nth-last-of-type(-n + 1){
+    border-bottom: 2px solid black;
+}
+
+.timeslot{
+    border: none;
+    border-right: 2px solid black;
+    /* width: 100%; */
+}
+
+.activity {
+    height: 99%;
+    width: 90%;
+    margin: 1px 1px 1px 1px;
+    border-radius: 5%;
+    cursor: pointer;
+}
+
+.activity h4, p {
+    margin: 0px 2px;
+    text-transform: uppercase;
+}
+
+.activity p {
+    font-size: small;
+    text-transform: capitalize;
+}
+
+.hour-long {
+    height: 199%;
+}
+
+.timeslot:nth-last-of-type(-n + 7){
+    border-bottom: 2px solid black;
+}
+
+.hover:hover {
+    background-color: darkgray;
+}
+
+.half-hour-mark {
+    border-bottom:1px dotted black ;
+}
+
+.hour-mark {
+    border-bottom: 1px solid black;
+}
+
+footer {
+    width: 100%;
+    height: 50px;
+    /* display: flex; */
+    margin: 2% 0% 0% 0%;
+    /* justify-content: space-between; */
+}
+
+
+footer p {
+    padding: 2px;
+}
+
+.roboto-mono {
+    font-family: "Roboto Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+  }
+
+.hidden {
+    display: none !important;
+}
+
+.stop-scrolling {
+    overflow: hidden !important;
+}
+

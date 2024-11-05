@@ -2,12 +2,16 @@ const container = document.getElementById("calendar");
 const form = document.getElementById("activity-form");
 const formDiv = document.getElementById("activity-form-div");
 const calendarHeader = document.getElementById("calendar-header");
-const activityHeader = document.getElementById("activity-header");
+const lastWeek = document.getElementById("last-week");
+const nextWeek = document.getElementById("next-week");
+// const activityHeader = document.getElementById("header");/
 
 let elementsEnabled = true;
 let inputSelected = "";
 const activeTimeSlots = [];
+const activities = [];
 
+// HTML objecst for modal
 const activitySaveButton = document.getElementById("activity-submit");
 const activityCloseButton = document.getElementById("activity-close");
 const activityName = document.getElementById("activity-name");
@@ -15,9 +19,24 @@ const activityDuration = document.getElementById("activity-duration");
 const activityLocation = document.getElementById("activity-location");
 const activityDescription = document.getElementById("activity-description");
 
+// Colors for modals
+const colors = ["grey", "red", "orange", "yellow", "green", "blue", "purple", "pink"];
+const greyButton = document.getElementById("grey");
+const redButton = document.getElementById("red");
+const orangeButton = document.getElementById("orange");
+const yellowButton = document.getElementById("yellow");
+const greenButton = document.getElementById("green");
+const blueButton = document.getElementById("blue");
+const purpleButton = document.getElementById("purple");
+const pinkButton = document.getElementById("pink");
+const colorButtons = [greyButton, redButton, orangeButton, yellowButton, greenButton, blueButton, purpleButton, pinkButton];
+
+const taskData = JSON.parse(localStorage.getItem("data")) || [];
+
 // Upon loading the window, create the calendar
 window.onload = () => {
     createWeek();
+    loadStorage();
 }
 
 const createWeek = () => {
@@ -30,10 +49,8 @@ const createWeek = () => {
         day: 'numeric',
       };
     const month = new Intl.DateTimeFormat("en-US", options).format(date);
-
     const day = date.getDay();
     const newDate = new Date(date.getDate() - day + (day == 0 ? -6 : 1));
-
     let startOfTheWeek = newDate.getDay();
 
     calendarHeader.innerText = "Week of " + month;
@@ -82,6 +99,31 @@ const createWeek = () => {
     })
 }
 
+const loadStorage = () => {
+    taskData.forEach(activity => {
+        console.log(activity)
+        const input = document.getElementById(activity.id);
+        input.classList.add("active");
+        input.classList.remove("hover");
+        activeTimeSlots.push(input)
+        if (activity.duration === "60-minutes"){
+            input.innerHTML = `
+            <div class="activity hour-long ${activity.color}">
+                <h4>${activity.name}</h4>
+                <p>${activity.description}</p>
+            </div>`;
+        }
+        else {
+            input.innerHTML = `
+            <div class="activity ${activity.color}">
+                <h4>${activity.name}</h4>
+                <p>${activity.description}</p>
+            </div>`;
+        }
+
+    })
+}
+
 // Onchange to input, this function is called.
 const update = event => {
     inputSelected = event.target;
@@ -101,6 +143,10 @@ const openModal = () => {
     container.classList.add("stop-scrolling");
     container.style.opacity = "5%";
     calendarHeader.style.opacity = "5%";
+    nextWeek.style.opacity ="5%";
+    nextWeek.disabled = true;
+    lastWeek.style.opacity ="5%";
+    lastWeek.disabled = true;
     disableElements()
 };
 
@@ -121,6 +167,10 @@ const closeModal = () => {
     container.classList.remove("stop-scrolling");
     container.style.opacity = "100%";
     calendarHeader.style.opacity = "100%";
+    nextWeek.style.opacity ="100%";
+    nextWeek.disabled = false;
+    lastWeek.style.opacity ="100%";
+    lastWeek.disabled = false;
     disableElements();
     
 }
@@ -129,9 +179,18 @@ activitySaveButton.addEventListener("click", () => {
 
     const firstInput = document.getElementById(inputSelected.id);
     const color = checkActiveColor();
-    console.log(color);
 
-    if (activityName.value === ""){
+    const activity = {
+        id: firstInput.id,
+        name: activityName.value,
+        duration: activityDuration.value,
+        location: activityLocation.value,
+        description: activityDescription.value,
+        color: color,
+        style: firstInput.classList,
+    }
+
+    if (activityName.value.trim() === ""){
         return
     }
 
@@ -148,8 +207,6 @@ activitySaveButton.addEventListener("click", () => {
                 <h4>${activityName.value}</h4>
                 <p>${activityDescription.value}</p>
             </div>`;
-
-        console.log(activeTimeSlots)
     }
     else {
         firstInput.classList.add("active")
@@ -160,27 +217,14 @@ activitySaveButton.addEventListener("click", () => {
                 <h4>${activityName.value}</h4>
                 <p>${activityDescription.value}</p>
             </div>`;
-        // inputSelected
     }
 
-
     closeModal();
+    taskData.push(activity)
+    localStorage.setItem("data", JSON.stringify(taskData))
 });
 
 activityCloseButton.addEventListener("click", closeModal);
-
-const greyButton = document.getElementById("grey");
-const redButton = document.getElementById("red");
-const orangeButton = document.getElementById("orange");
-const yellowButton = document.getElementById("yellow");
-const greenButton = document.getElementById("green");
-const blueButton = document.getElementById("blue");
-const purpleButton = document.getElementById("purple");
-const pinkButton = document.getElementById("pink");
-
-const colors = ["grey", "red", "orange", "yellow", "green", "blue", "purple", "pink"];
-const colorButtons = [greyButton, redButton, orangeButton, yellowButton, greenButton, blueButton, purpleButton, pinkButton];
-
 greyButton.addEventListener("click", () => setColor(greyButton));
 redButton.addEventListener("click", () => setColor(redButton));
 orangeButton.addEventListener("click", () => setColor(orangeButton));

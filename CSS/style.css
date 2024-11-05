@@ -47,17 +47,25 @@ main {
 
 .rowHeader, .colHeader {
     background-color: lightgray;
-    padding: 4px;
+    
 }
 
 .rowHeader {
     text-align: end;
-    line-height: 80px;
+    /* height: 100%; */
+    /* line-height: 80px; */
+    /* display: block; */
     /* width: 50%; */
+
+    padding-bottom: 50%;
+    padding-right: 2%;
 }
 
 .rowHeader p {
     font-size: 0.75rem;
+
+    /* padding: 5%; */
+    /* height: 100%; */
 }
 
 .colHeader{
@@ -67,6 +75,7 @@ main {
     border-top: 2px solid black;
     border-right: 2px solid black;
     border-bottom: 2px solid black;
+    padding: 4px;
 }
 
 .colHeader p, .rowHeader p {
@@ -168,3 +177,30 @@ main {
     background-color: #dfdfdf;
 }
 
+.header { 
+    display: flex;
+    margin-bottom: 2%;
+
+    justify-content: start;
+}
+
+.header h1 {
+    margin: 0;
+    width: 90%;
+}
+
+.header #week-buttons {
+    width: 10%;
+    display: flex;
+}
+
+.header button {
+    border: none;
+    background-color: whitesmoke;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.header button:hover {
+    color: darkgrey;
+}

@@ -199,6 +199,7 @@ main {
     background-color: whitesmoke;
     font-size: 2.5rem;
     font-weight: 700;
+    text-align: end;
 }
 
 .header button:hover {

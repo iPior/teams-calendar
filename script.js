@@ -13,6 +13,9 @@ const activities = [];
 
 // HTML objecst for modal
 const activitySaveButton = document.getElementById("activity-submit");
+const activityCancelButton = document.getElementById("activity-cancel");
+const activityEditButton = document.getElementById("activity-edit");
+const activityDeleteButton = document.getElementById("activity-delete");
 const activityCloseButton = document.getElementById("activity-close");
 const activityName = document.getElementById("activity-name");
 const activityDuration = document.getElementById("activity-duration");
@@ -99,12 +102,13 @@ const createWeek = () => {
     })
 }
 
+// Takes the acitivites from the local storage and loads them onto the calendar
 const loadStorage = () => {
     taskData.forEach(activity => {
-        console.log(activity)
         const input = document.getElementById(activity.id);
         input.classList.add("active");
         input.classList.remove("hover");
+        input.onclick= editActivity;
         activeTimeSlots.push(input)
         if (activity.duration === "60-minutes"){
             input.innerHTML = `
@@ -130,15 +134,17 @@ const update = event => {
     openModal();
 };
 
+// Bring up the form 
 const openModal = () => {
-    // Bring up the form 
-    setColor(greyButton); //Reset the color
 
+    // Show form
     formDiv.classList.remove("hidden")
     formDiv.style.zIndex = "1";
 
+    // Hide calendar
     form.style.zIndex = "1";
     form.classList.remove("hidden");
+
     // "Pause" the calendar
     container.classList.add("stop-scrolling");
     container.style.opacity = "5%";
@@ -150,20 +156,17 @@ const openModal = () => {
     disableElements()
 };
 
-const closeModal = () => {
-    //Clean the values
-    activityName.value = "";
-    activityDuration.value = "30-minutes"
-    activityLocation.value = "";
-    activityDescription.value = "";
+const cancelModal = () => {
 
-    // Else, do the reverse action
+    // Hide form
     formDiv.classList.add("hidden")
     formDiv.style.zIndex = "0";
 
+    // Show calendar
     form.style.zIndex = "0";
     form.classList.add("hidden");
 
+    // Enable calendar buttons
     container.classList.remove("stop-scrolling");
     container.style.opacity = "100%";
     calendarHeader.style.opacity = "100%";
@@ -173,6 +176,67 @@ const closeModal = () => {
     lastWeek.disabled = false;
     disableElements();
     
+}
+
+const closeModel = () => {
+    //Disable the color buttons
+    colorButtons.forEach(btn => btn.disabled = false);
+
+    // Disable the inputs
+    activityName.disabled = false;
+    activityDuration.disabled = false;
+    activityLocation.disabled = false;
+    activityDescription.disabled = false;
+
+    // Select the right buttons
+    activitySaveButton.classList.remove("hidden");
+    activityCancelButton.classList.remove("hidden");
+    activityEditButton.classList.add("hidden");
+    activityDeleteButton.classList.add("hidden");
+    activityCloseButton.classList.add("hidden");
+    cancelModal();
+}
+
+const openEditModal = (task) => {
+
+    // Fill in the inputs
+    activityName.value = task.name;
+    activityDuration.value = task.duration;
+    activityLocation.value = task.location;
+    activityDescription.value = task.description;
+
+    // Set the color of the modal
+    const color = task.color.match(/^\w+(?=-)/)[0];
+    setColorFromButton(document.getElementById(color));
+
+    // Disable the inputs
+    activityName.disabled = true;
+    activityDuration.disabled = true;
+    activityLocation.disabled = true;
+    activityDescription.disabled = true;
+
+    //Disable the color buttons
+    colorButtons.forEach(btn => btn.disabled = true);
+
+    // Select the right buttons
+    activitySaveButton.classList.add("hidden");
+    activityCancelButton.classList.add("hidden");
+    activityEditButton.classList.remove("hidden");
+    activityDeleteButton.classList.remove("hidden");
+    activityCloseButton.classList.remove("hidden");
+    
+    // Open the modal
+    openModal();
+}
+
+const editActivity = (event) => {
+    
+    taskData.forEach(task => {
+        // console.log("Target Event: ", event.target)
+        if (task.id === event.target.id){
+            openEditModal(task)
+        }
+    })
 }
 
 activitySaveButton.addEventListener("click", () => {
@@ -202,8 +266,9 @@ activitySaveButton.addEventListener("click", () => {
         firstInput.classList.remove("hover");
         secondInput.classList.remove("hover");
         activeTimeSlots.push(firstInput,secondInput)
+        firstInput.onclick= editActivity;
         firstInput.innerHTML = `
-            <div class="activity hour-long ${color}">
+            <div class="activity hour-long ${color}" >
                 <h4>${activityName.value}</h4>
                 <p>${activityDescription.value}</p>
             </div>`;
@@ -212,30 +277,44 @@ activitySaveButton.addEventListener("click", () => {
         firstInput.classList.add("active")
         firstInput.classList.remove("hover")
         activeTimeSlots.push(firstInput)
+        firstInput.onclick = editActivity;
         firstInput.innerHTML = `
             <div class="activity ${color}">
                 <h4>${activityName.value}</h4>
                 <p>${activityDescription.value}</p>
             </div>`;
     }
-
-    closeModal();
+    resetInputs()
+    cancelModal();
     taskData.push(activity)
     localStorage.setItem("data", JSON.stringify(taskData))
 });
 
-activityCloseButton.addEventListener("click", closeModal);
-greyButton.addEventListener("click", () => setColor(greyButton));
-redButton.addEventListener("click", () => setColor(redButton));
-orangeButton.addEventListener("click", () => setColor(orangeButton));
-yellowButton.addEventListener("click", () => setColor(yellowButton));
-greenButton.addEventListener("click", () => setColor(greenButton));
-blueButton.addEventListener("click", () => setColor(blueButton));
-purpleButton.addEventListener("click", () => setColor(purpleButton));
-pinkButton.addEventListener("click", () => setColor(pinkButton));
+activityCloseButton.addEventListener("click", closeModel);
+activityCancelButton.addEventListener("click", cancelModal);
+greyButton.addEventListener("click", () => setColorFromButton(greyButton));
+redButton.addEventListener("click", () => setColorFromButton(redButton));
+orangeButton.addEventListener("click", () => setColorFromButton(orangeButton));
+yellowButton.addEventListener("click", () => setColorFromButton(yellowButton));
+greenButton.addEventListener("click", () => setColorFromButton(greenButton));
+blueButton.addEventListener("click", () => setColorFromButton(blueButton));
+purpleButton.addEventListener("click", () => setColorFromButton(purpleButton));
+pinkButton.addEventListener("click", () => setColorFromButton(pinkButton));
+
+
+// Reset the values of inputs back to default
+const resetInputs = () => {
+    setColorFromButton(greyButton); //Reset the color
+
+    //Clean the values
+    activityName.value = "";
+    activityDuration.value = "30-minutes"
+    activityLocation.value = "";
+    activityDescription.value = "";
+}
 
 // Function to generalie changing the color of the buttons
-const setColor = (button) => {
+const setColorFromButton = (button) => {
     colors.forEach(color => {
         if (form.classList.contains(color) && color !== button.id) {
             form.classList.remove(color);

@@ -42,7 +42,6 @@
 #btn-group button {
     /* font-weight: 400; */
     padding: 10px 24px;
-    cursor: pointer;
     float: left;
     border-radius: 20% 20% 0% 0%;
     /* height: 100%; */
@@ -51,13 +50,17 @@
     /* border-radius: 10%; */
 }
 
+#btn-group button:enabled {
+    cursor: pointer;
+}
+
 #btn-group-div {
     display: flex;
     text-align: center;
 
 }
 
-#btn-group button:hover {
+#btn-group button:hover:enabled {
     /* background-color: lightgray !important; ; */
     margin-top: 10px;
     height: 30px !important;
@@ -81,7 +84,7 @@
     border: 2px solid darkgrey;
     /* border-bottom: none; */
 }
-#btn-group #grey:hover {
+#btn-group #grey:hover:enabled {
     background-color: darkgrey !important;
 }
 
@@ -93,7 +96,7 @@
     background-color: red;
     border: 2px solid red;
 }
-#btn-group #red:hover {
+#btn-group #red:hover:enabled {
     background-color: red !important;
 }
 
@@ -105,7 +108,7 @@
     background-color: #ffa500;
     border: 2px solid #ffa500;
 }
-#btn-group #orange:hover {
+#btn-group #orange:hover:enabled {
     background-color: #ffa500;
 }
 
@@ -117,7 +120,7 @@
     background-color: #e0bc00;
     border: 2px solid #e0bc00;
 }
-#btn-group #yellow:hover {
+#btn-group #yellow:hover:enabled {
     background-color: #e0bc00 !important;
 }
 
@@ -129,7 +132,7 @@
     background-color: green;
     border: 2px solid green;
 }
-#btn-group #green:hover {
+#btn-group #green:hover:enabled {
     background-color: green !important;
 }
 
@@ -141,7 +144,7 @@
     background-color: blue;
     border: 2px solid blue;
 }
-#btn-group #blue:hover {
+#btn-group #blue:hover:enabled {
     background-color: blue !important;
     color: white;
 }
@@ -154,7 +157,7 @@
     background-color: #7f00ff;
     border: 2px solid #7f00ff;
 }
-#btn-group #purple:hover {
+#btn-group #purple:hover:enabled {
     background-color: #7f00ff !important;
 }
 
@@ -166,6 +169,6 @@
     background-color: #ff8da1;
     border: 2px solid #ff8da1;
 }
-#btn-group #pink:hover {
+#btn-group #pink:hover:enabled {
     background-color: #ff8da1 !important;
 }

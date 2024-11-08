@@ -1,14 +1,19 @@
 # teams-calendar
 
-To Do;
-1. Edit/delete modal
-2. Add none value to inputs that are saved empty
-3. Design an appropriate delete button
+To Do
+1. Add following weeks to the calendar
 
+- At the start of the year, create an array for every week in the calendar.
+- Start the calendar on the current week
+- every button submit, reload the page with the next week/last week
+- save all weeks in the local storage as data
 
+possible issues to consider: edge cases
+- the day of the year that the calendar starts
+- the day of the year that the calendar ends
+
+- Grey out past weeks and disable
 
 Bugs:
 1. If the first word of the title or desccription is too long it spills out of the box
-2. Edit modal opens activity as grey color
-3. hour long meetings lose the hover effect
-4. local storage meetings onclick property for the div, not the input (maybe both)
+5. hour long activities resize bad and bleed

@@ -68,12 +68,15 @@ form select {
 .save-close-buttons input {
     margin-bottom: 1%;
     margin-left: 4px;
-    width: 25%;
+    width: auto;
+    padding-left: 4%;
+    padding-right: 4%;
     /* height: 100; */
 }
 
 #activity-delete {
-    background-color: red;
+    /* background-color: red; */
+    color: red;
 }
 
 

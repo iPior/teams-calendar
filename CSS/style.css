@@ -4,7 +4,6 @@ html {
 }
 body {
     height: 75%;
-    /* height: 100%; */
     margin: 5%  10% 0% 10%;
     background-color: whitesmoke;
     /* overflow-y: hidden; */
@@ -12,11 +11,10 @@ body {
 
 h1 {
     display: flex;
-    font-size: 3em;
+    font-size: 2.5rem;
     height: 9%;
     margin: auto;
     margin-bottom: 1%;
-    /* justify-content: ; */
 }
 
 main {
@@ -36,7 +34,7 @@ main {
     overflow-x: auto;
     overflow-y: auto;
     /* position: absolute; */
-    z-index: 1;
+    z-index: 0;
 }
 
 #first-col-spacer {
@@ -52,25 +50,15 @@ main {
 
 .rowHeader {
     text-align: end;
-    /* height: 100%; */
-    /* line-height: 80px; */
-    /* display: block; */
-    /* width: 50%; */
-
     padding-bottom: 50%;
     padding-right: 2%;
 }
 
 .rowHeader p {
     font-size: 0.75rem;
-
-    /* padding: 5%; */
-    /* height: 100%; */
 }
 
 .colHeader{
-    /* margin-top: auto; */
-    /* height: 100%; */
     display: block;
     border-top: 2px solid black;
     border-right: 2px solid black;
@@ -102,11 +90,9 @@ main {
 }
 
 .rowHeader:nth-of-type(odd){
-    /* border-top: 1px solid black; */
     border-bottom: 1px dotted black;
 }
 .rowHeader:nth-of-type(even){
-    /* border-top: 1px solid black; */
     border-bottom: 1px solid black;
 }
 .rowHeader:nth-last-of-type(-n + 1){
@@ -116,30 +102,39 @@ main {
 .timeslot{
     border: none;
     border-right: 2px solid black;
-    /* width: 100%; */
 }
 
 .activity {
     height: 99%;
-    width: 90%;
+    width: 92%;
     margin: 1px 1px 1px 1px;
     border-radius: 5%;
     cursor: pointer;
+    z-index: 1;
 }
 
+.hour-long.activity {
+    height: 198%;
+}
 .activity h4 {
     margin: 0px 2px;
+    font-size: 0.85rem;
     text-transform: uppercase;
 }
 
 .activity p {
-    font-size: small;
+    font-size: 0.765rem;
     text-transform: capitalize;
+    margin: 0px 2px;
 }
 
-.hour-long {
-    height: 199%;
+.click {
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+    /* background-color: purple; */
 }
+
 
 .timeslot:nth-last-of-type(-n + 7){
     border-bottom: 2px solid black;
@@ -180,26 +175,20 @@ main {
 .header { 
     display: flex;
     margin-bottom: 2%;
-
-    justify-content: start;
+    justify-content: space-between;
 }
 
 .header h1 {
     margin: 0;
-    width: 90%;
+    margin-right: 1%;
 }
 
-.header #week-buttons {
-    width: 10%;
-    display: flex;
-}
 
 .header button {
     border: none;
     background-color: whitesmoke;
     font-size: 2.5rem;
     font-weight: 700;
-    text-align: end;
 }
 
 .header button:hover {

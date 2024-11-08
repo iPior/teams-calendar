@@ -7,13 +7,16 @@ const nextWeek = document.getElementById("next-week");
 // const activityHeader = document.getElementById("header");/
 
 let elementsEnabled = true;
-let inputSelected = "";
+let inputSelected = null;
+let currentTask = null;
 const activeTimeSlots = [];
 const activities = [];
 
 // HTML objecst for modal
 const activitySaveButton = document.getElementById("activity-submit");
 const activityCancelButton = document.getElementById("activity-cancel");
+const activitySaveModalButton = document.getElementById("activity-save");
+const activityCancelSaveModalButton = document.getElementById("activity-cancel-save");
 const activityEditButton = document.getElementById("activity-edit");
 const activityDeleteButton = document.getElementById("activity-delete");
 const activityCloseButton = document.getElementById("activity-close");
@@ -34,6 +37,7 @@ const purpleButton = document.getElementById("purple");
 const pinkButton = document.getElementById("pink");
 const colorButtons = [greyButton, redButton, orangeButton, yellowButton, greenButton, blueButton, purpleButton, pinkButton];
 
+// Local storage data array
 const taskData = JSON.parse(localStorage.getItem("data")) || [];
 
 // Upon loading the window, create the calendar
@@ -108,20 +112,30 @@ const loadStorage = () => {
         const input = document.getElementById(activity.id);
         input.classList.add("active");
         input.classList.remove("hover");
-        input.onclick= editActivity;
+        input.onclick = '';
         activeTimeSlots.push(input)
         if (activity.duration === "60-minutes"){
+            const secondInput = document.getElementById(getNextInput(activity.id));
+            secondInput.classList.add("active");
+            secondInput.classList.remove("hover");
+            secondInput.onclick = "";
+            secondInput.style.zIndex = "-1";
+            activeTimeSlots.push(secondInput);
             input.innerHTML = `
-            <div class="activity hour-long ${activity.color}">
-                <h4>${activity.name}</h4>
-                <p>${activity.description}</p>
+            <div class="activity hour-long ${activity.color}" >
+                <div class="click" onclick="openActivity(event)">
+                    <h4>${activity.name}</h4>
+                    <p>${activity.description}</p>
+                </div>
             </div>`;
         }
         else {
             input.innerHTML = `
             <div class="activity ${activity.color}">
-                <h4>${activity.name}</h4>
-                <p>${activity.description}</p>
+                <div class="click" onclick="openActivity(event)">
+                    <h4>${activity.name}</h4>
+                    <p>${activity.description}</p>
+                </div>
             </div>`;
         }
 
@@ -175,10 +189,11 @@ const cancelModal = () => {
     lastWeek.style.opacity ="100%";
     lastWeek.disabled = false;
     disableElements();
+    resetInputs();
     
 }
 
-const closeModel = () => {
+const closeModal = () => {
     //Disable the color buttons
     colorButtons.forEach(btn => btn.disabled = false);
 
@@ -197,18 +212,61 @@ const closeModel = () => {
     cancelModal();
 }
 
-const openEditModal = (task) => {
+const editModal = (event) => {
 
-    // Fill in the inputs
-    activityName.value = task.name;
-    activityDuration.value = task.duration;
-    activityLocation.value = task.location;
-    activityDescription.value = task.description;
+    const disableEnableInputs = (disabledBool) => {
 
-    // Set the color of the modal
-    const color = task.color.match(/^\w+(?=-)/)[0];
-    setColorFromButton(document.getElementById(color));
+        // Enable/Disable the inputs
+        activityName.disabled = disabledBool;
+        activityDuration.disabled = disabledBool;
+        activityLocation.disabled = disabledBool;
+        activityDescription.disabled = disabledBool;
+    
+        //Enable the color buttons
+        colorButtons.forEach(btn => btn.disabled = disabledBool);
 
+        if (disabledBool){
+            activitySaveModalButton.classList.add("hidden");
+            activityCancelSaveModalButton.classList.add("hidden");
+            activityEditButton.classList.remove("hidden");
+            activityDeleteButton.classList.remove("hidden");
+            activityCloseButton.classList.remove("hidden");
+        }
+        else {
+            activitySaveModalButton.classList.remove("hidden");
+            activityCancelSaveModalButton.classList.remove("hidden");
+            activityEditButton.classList.add("hidden");
+            activityDeleteButton.classList.add("hidden");
+            activityCloseButton.classList.add("hidden");
+        }
+    };
+    disableEnableInputs(false)
+
+    activitySaveModalButton.addEventListener("click", () => {
+        const color = checkActiveColor();
+        
+        // Making changes in the local storage
+        taskData.forEach(tsk => {
+            if (tsk.id === currentTask.id) {
+                tsk.name = activityName.value;
+                tsk.duration = activityDuration.value;
+                tsk.location = activityLocation.value;
+                tsk.description = activityDescription.value;
+                tsk.color = color;
+            }
+        });
+        localStorage.setItem("data", JSON.stringify(taskData))
+    });
+
+}
+
+const openActivity = (event) => {
+    let id = null;
+    // Check if we are modifying the right element
+    (event.target.matches("h4") || event.target.matches("p")) ?
+    id = event.target.parentElement.parentElement.parentElement.id :
+    id = event.target.parentElement.parentElement.id;
+    
     // Disable the inputs
     activityName.disabled = true;
     activityDuration.disabled = true;
@@ -227,21 +285,78 @@ const openEditModal = (task) => {
     
     // Open the modal
     openModal();
-}
 
-const editActivity = (event) => {
-    
     taskData.forEach(task => {
-        // console.log("Target Event: ", event.target)
-        if (task.id === event.target.id){
-            openEditModal(task)
+        if (task.id === id){
+            // Fill in inputs
+            inputSelected = task.id;
+
+            // Set the current task
+            currentTask=task
+
+            // Fill in the inputs
+            activityName.value = task.name;
+            activityDuration.value = task.duration;
+            task.location === "" ? activityLocation.value = " " : activityLocation.value = task.location;
+            task.description === "" ? activityDescription.value = " " : activityDescription.value = task.description;
+
+            // Set the color of the modal
+            const color = task.color.match(/^\w+(?=-)/)[0];
+            setColorFromButton(document.getElementById(color));
         }
     })
+}
+
+const deleteActivity = () => {
+    const input = document.getElementById(inputSelected);
+
+    //If this is an hour long activity reset second input
+    if (input.children[0].classList.contains("hour-long")){
+        const secondInput = document.getElementById(getNextInput(input.id));
+        secondInput.classList.remove("active");
+        secondInput.classList.add("hover");
+        secondInput.onclick = update;
+        secondInput.style.zIndex = "0";
+        // Remove from active time slots and remove from local storage
+        activeTimeSlots.forEach(timeSlot => { 
+            if (timeSlot.id === secondInput.id){
+                activeTimeSlots.splice(activeTimeSlots.indexOf(timeSlot), 1);
+                console.log("match")
+            }
+        });
+        taskData.forEach(task => {
+            if (task.id === secondInput.id){
+                taskData.splice(taskData.indexOf(task), 1);
+            }
+        })
+    }
+    // reset input
+    input.classList.remove("active");
+    input.classList.add("hover");
+    input.onclick = update;
+    // Remove from active time slots and remove from local storage
+    activeTimeSlots.forEach(timeSlot => { 
+        if (timeSlot.id === inputSelected){
+            activeTimeSlots.splice(activeTimeSlots.indexOf(timeSlot), 1);
+        }
+    });
+    taskData.forEach(task => {
+        if (task.id === inputSelected){
+            taskData.splice(taskData.indexOf(task), 1);
+        }
+    })
+    localStorage.setItem("data", JSON.stringify(taskData))
+    
+    input.children[0].remove();
+    closeModal();
+    
 }
 
 activitySaveButton.addEventListener("click", () => {
 
     const firstInput = document.getElementById(inputSelected.id);
+    firstInput.onclick = '';
+
     const color = checkActiveColor();
 
     const activity = {
@@ -265,23 +380,29 @@ activitySaveButton.addEventListener("click", () => {
         secondInput.classList.add("active");
         firstInput.classList.remove("hover");
         secondInput.classList.remove("hover");
+        firstInput.onclick = "";
+        secondInput.onclick = "";
+        secondInput.style.zIndex = "-1";
         activeTimeSlots.push(firstInput,secondInput)
-        firstInput.onclick= editActivity;
-        firstInput.innerHTML = `
-            <div class="activity hour-long ${color}" >
+        firstInput.innerHTML = 
+            `<div class="activity hour-long ${color}">
+                <div class="click" onclick="openActivity(event)">
                 <h4>${activityName.value}</h4>
                 <p>${activityDescription.value}</p>
+                </div>
             </div>`;
     }
     else {
         firstInput.classList.add("active")
         firstInput.classList.remove("hover")
+        firstInput.onclick = ""
         activeTimeSlots.push(firstInput)
-        firstInput.onclick = editActivity;
         firstInput.innerHTML = `
-            <div class="activity ${color}">
+            <div class="activity ${color}" >
+                <div class="click" onclick="openActivity(event)">
                 <h4>${activityName.value}</h4>
                 <p>${activityDescription.value}</p>
+                </div>
             </div>`;
     }
     resetInputs()
@@ -290,8 +411,10 @@ activitySaveButton.addEventListener("click", () => {
     localStorage.setItem("data", JSON.stringify(taskData))
 });
 
-activityCloseButton.addEventListener("click", closeModel);
+activityCloseButton.addEventListener("click", closeModal);
 activityCancelButton.addEventListener("click", cancelModal);
+activityDeleteButton.addEventListener("click", deleteActivity);
+activityEditButton.addEventListener("click", editModal);
 greyButton.addEventListener("click", () => setColorFromButton(greyButton));
 redButton.addEventListener("click", () => setColorFromButton(redButton));
 orangeButton.addEventListener("click", () => setColorFromButton(orangeButton));
@@ -306,7 +429,6 @@ pinkButton.addEventListener("click", () => setColorFromButton(pinkButton));
 const resetInputs = () => {
     setColorFromButton(greyButton); //Reset the color
 
-    //Clean the values
     activityName.value = "";
     activityDuration.value = "30-minutes"
     activityLocation.value = "";
@@ -355,11 +477,17 @@ const getNextInput = (str) => {
         // Keeping this in american time
         if (hour > 12){
             hour = hour % 12;
+            if (hour > 9){
+                return `${day}${hour}:${minute} PM`;
+            }
+            return `${day}0${hour}:${minute} PM`;
         }
-        if (hour > 9){
-            return `${day}${hour}:${minute} PM`;
+        else {
+            if (hour > 9){
+                return `${day}${hour}:${minute} AM`;
+            }
+            return `${day}0${hour}:${minute} AM`;
         }
-        return `${day}0${hour}:${minute} PM`;
     }
     else {
         minute = "30";

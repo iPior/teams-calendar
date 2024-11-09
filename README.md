@@ -14,6 +14,11 @@ possible issues to consider: edge cases
 
 - Grey out past weeks and disable
 
+2. Highlight current day somehow
+3. Possibly a red line going to the current hour block of the day
+
 Bugs:
 1. If the first word of the title or desccription is too long it spills out of the box
 5. hour long activities resize bad and bleed
+6. Check if the next slot is free before doing a hour sesh
+7. Fix the numbering of the week

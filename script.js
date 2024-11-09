@@ -55,9 +55,11 @@ const createWeek = () => {
         month: 'long',
         day: 'numeric',
       };
-    const month = new Intl.DateTimeFormat("en-US", options).format(date);
+    // const month = new Intl.DateTimeFormat("en-US", options).format(date);
     const day = date.getDay();
-    const newDate = new Date(date.getDate() - day + (day == 0 ? -6 : 1));
+    const newDate = new Date(date.setDate(date.getDate() - day + (day == 0 ? -6 : 1)));
+    const month = new Intl.DateTimeFormat("en-US", options).format(newDate);
+    console.log(newDate)
     let startOfTheWeek = newDate.getDay();
 
     calendarHeader.innerText = "Week of " + month;

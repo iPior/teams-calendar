@@ -167,9 +167,15 @@ main {
     overflow: hidden !important;
 }
 
-.Sunday,
-.Saturday {
-    background-color: #dfdfdf;
+/* .Sunday, */
+/* .Saturday, */
+.current-day,
+.current-time {
+    /* background-color: #dfdfdf; */
+    background-color: #c7c7c7;
+}
+.current-day.current-time {
+    background-color: #898989;
 }
 
 .header { 

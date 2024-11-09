@@ -48,44 +48,64 @@ window.onload = () => {
 
 const createWeek = () => {
 
-    const date = new Date();
+    // Setting the dates
     const options = {
         weekday: 'long',
         year: 'numeric',
         month: 'long',
         day: 'numeric',
       };
-    // const month = new Intl.DateTimeFormat("en-US", options).format(date);
-    const day = date.getDay();
-    const newDate = new Date(date.setDate(date.getDate() - day + (day == 0 ? -6 : 1)));
-    const month = new Intl.DateTimeFormat("en-US", options).format(newDate);
-    console.log(newDate)
-    let startOfTheWeek = newDate.getDay();
+    const date = new Date();
+    const newDate = new Date(date.setDate(date.getDate() - date.getDay() + (date.getDay() == 0 ? -6 : 1))); // Getting start of the week
+    const currentDay = new Intl.DateTimeFormat("en-US", {weekday: 'long'}).format(new Date()).toLowerCase();
+    
 
-    calendarHeader.innerText = "Week of " + month;
+    // Calendar Header
+    const week = new Intl.DateTimeFormat("en-US", options).format(newDate);
+    calendarHeader.innerText = "Week of " + week;
+
+    // Creating columns to be days of the week, and rows to be 30-minute time slots
+    const timeSlots = generateHoursInterval(60*7, 60 * 24, 30);
+    const daysOfTheWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+    const daysOfTheWeekTwo = []
+    let startOfTheWeek = newDate.getDate();
+    for (let i = 0; i<7; i++){
+        daysOfTheWeekTwo.push({date: Number(startOfTheWeek) + i, day: daysOfTheWeek[i].charAt(0).toUpperCase() + daysOfTheWeek[i].slice(1)})
+    }
+
+    // Getting the current time approximation 
+    const currentTime = new Intl.DateTimeFormat("en-US", {hour: '2-digit', minute: '2-digit', hour12: true}).format(new Date());
+    let currentTimeApproximation = null;
+    timeSlots.forEach(time => {
+        const hourOne = time.slice(0,2);
+        const amPmOne = time.slice(-2);
+        const hourTwo = currentTime.slice(0,2)
+        const minuteTwo = Number(currentTime.slice(3,5))
+        const amPmTwo = currentTime.slice(-2);
+
+        if (amPmOne === amPmTwo && hourOne === hourTwo) {
+            minuteTwo < 30 ? currentTimeApproximation = `${hourTwo}:00 ${amPmTwo}` : currentTimeApproximation = `${hourTwo}:30 ${amPmTwo}`; 
+        }
+        
+    });
+
+    console.log(currentTimeApproximation);
+
     // Function to create a row
     const createLabel = (title, rowCol) => {
         const label = document.createElement("div");
         if (rowCol === "row"){
-            label.classList.add("rowHeader")
+            title === currentTimeApproximation ? label.classList.add("rowHeader", title.replace(/(\d{1,2}):(\d{2}) (AM|PM)/, '$1-$2-$3'), "current-time") : label.classList.add("rowHeader", title.replace(/(\d{1,2}):(\d{2}) (AM|PM)/, '$1-$2-$3'));
             label.innerHTML = `<p>${title}</p>`;
         }
         else {
-            label.classList.add("colHeader", "sticky")
+            title.day === currentDay ? label.classList.add("colHeader", "sticky", title.day, "current-day") : label.classList.add("colHeader", "sticky", title.day)
             label.innerHTML = `
             <h6>${title.date < 10 ? '0' + title.date : title.date}</h6>
             <p>${title.day}</p>
             `;
         }
         container.appendChild(label);
-    }
-
-    // Creating columns to be days of the week, and rows to be 30-minute time slots
-    const timeSlots = generateHoursInterval(60*7, 60 * 24, 30);
-    const daysOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const daysOfTheWeekTwo = []
-    for (let i = 0; i<7; i++){
-        daysOfTheWeekTwo.push({date: Number(startOfTheWeek) + i, day: daysOfTheWeek[i]})
     }
 
     // Create a header label for every day fo the week
@@ -97,11 +117,14 @@ const createWeek = () => {
         createLabel(time, "row")
         daysOfTheWeek.forEach(day => {
             const input = document.createElement("span");
+            const timeCleaned = time.replace(/(\d{1,2}):(\d{2}) (AM|PM)/, '$1-$2-$3')
             // input.type = "text";
-            input.id = `${day}-${time}`;
+            input.id = `${day}-${timeCleaned}`;
             time.slice(3,5) === "30" ? input.className = "hour-mark" : input.className = "half-hour-mark";
-            input.classList.add(day, "timeslot", "hover")
-            input.ariaLabel = `${day}-${time}`;
+            input.classList.add(day, "timeslot", "hover", timeCleaned)
+            day === currentDay ? input.classList.add("current-day") : null;
+            time === currentTimeApproximation ? input.classList.add("current-time") : null;
+            input.ariaLabel = `${day}-${timeCleaned}`;
             input.onclick = update;
             container.appendChild(input);
         })
@@ -110,6 +133,7 @@ const createWeek = () => {
 
 // Takes the acitivites from the local storage and loads them onto the calendar
 const loadStorage = () => {
+
     taskData.forEach(activity => {
         const input = document.getElementById(activity.id);
         input.classList.add("active");
@@ -323,7 +347,7 @@ const deleteActivity = () => {
         activeTimeSlots.forEach(timeSlot => { 
             if (timeSlot.id === secondInput.id){
                 activeTimeSlots.splice(activeTimeSlots.indexOf(timeSlot), 1);
-                console.log("match")
+
             }
         });
         taskData.forEach(task => {
@@ -378,6 +402,10 @@ activitySaveButton.addEventListener("click", () => {
     // If the hour period is selected we need to identify the next input to style
     if (activityDuration.value === "60-minutes") {
         const secondInput = document.getElementById(getNextInput(inputSelected.id));
+        if (activeTimeSlots.includes(secondInput)){
+            alert("Time slots overlap")
+            return
+        }
         firstInput.classList.add("active");
         secondInput.classList.add("active");
         firstInput.classList.remove("hover");

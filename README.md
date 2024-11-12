@@ -11,3 +11,6 @@ Lastly, you can plan ahead or view previous weeks using the arrows at the top ri
 Notes: 
 - Only 30 minute and 60 minute durations were implemented. 
 - 30 minute activities will not display descriptions.
+- All data is stored locally in the browser for easy continued use.
+
+That's all, thanks! :)

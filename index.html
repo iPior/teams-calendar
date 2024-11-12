@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Teams Calendar // Weekly Planner
+    <title>Weekly Planner
     </title>
     
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="CSS/buttons.css">
     <link rel="stylesheet" href="CSS/modal.css">
   </head>
-  <body class="roboto-mono">
+  <body>
     <header>
         <!-- May not be required -->
     </header>
@@ -20,8 +20,8 @@
         <div class="header">
           <h1 id="calendar-header"></h1>
           <div id="week-buttons">
-            <button id="last-week"><</button>
-            <button id="next-week">></button>
+            <button id="last-week" type="submit"><</button>
+            <button id="next-week" type="submit">></button>
           </div>
         </div>
         <div id="activity-form-div" class="hidden">
@@ -61,9 +61,9 @@
             </div>
             <div class="div-row save-close-buttons">
               <input class="" type="button" id="activity-submit" value="Save" />
-              <input class="hidden" type="submit" id="activity-save" value="Save Changes" />
+              <input class="hidden" type="button" id="activity-save" value="Save Changes" />
               <input class="" type="button" id="activity-cancel" value="Cancel" />
-              <input class="hidden" type="submit" id="activity-cancel-save" value="Cancel" />
+              <input class="hidden" type="button" id="activity-cancel-save" value="Cancel" />
               <input class="hidden" type="button" id="activity-edit" value="Edit"/>
               <input class="hidden" type="button" id="activity-delete" value="Delete"/>
               <input class="hidden" type="button" id="activity-close" value="Close"/>

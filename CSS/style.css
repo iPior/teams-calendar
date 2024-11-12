@@ -1,12 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 html {
     height: 100%;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    --height: 60px;
 }
 body {
     height: 75%;
     margin: 5%  10% 0% 10%;
     background-color: whitesmoke;
     /* overflow-y: hidden; */
+}
+span {
+    height: var(--height);
+    /* overflow: hidden; */
 }
 
 h1 {
@@ -22,6 +30,7 @@ main {
     width: 100%;
     
 }
+
 
 
 #calendar {
@@ -44,13 +53,14 @@ main {
 } 
 
 .rowHeader, .colHeader {
-    background-color: lightgray;
+    background-color: lightgray !important;
     
 }
 
 .rowHeader {
     text-align: end;
-    padding-bottom: 50%;
+    /* height: 60px; */
+    
     padding-right: 2%;
 }
 
@@ -105,16 +115,26 @@ main {
 }
 
 .activity {
-    height: 99%;
+    height: 100%;
     width: 92%;
-    margin: 1px 1px 1px 1px;
+    margin: 0px 1px 1px 1px;
     border-radius: 5%;
     cursor: pointer;
     z-index: 1;
+    /* CSS to wrap text for overflow */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+    overflow-y: hidden;
+    
 }
 
 .hour-long.activity {
-    height: 198%;
+    height: 200% !important;
+    overflow: hidden;
 }
 .activity h4 {
     margin: 0px 2px;
@@ -123,7 +143,7 @@ main {
 }
 
 .activity p {
-    font-size: 0.765rem;
+    font-size: 0.65rem;
     text-transform: capitalize;
     margin: 0px 2px;
 }
@@ -132,6 +152,7 @@ main {
     height: 100%;
     width: 100%;
     z-index: 2;
+    overflow: hidden;
     /* background-color: purple; */
 }
 
@@ -141,7 +162,7 @@ main {
 }
 
 .hover:hover {
-    background-color: darkgray;
+    background-color: #A0A0A0 !important;
 }
 
 .half-hour-mark {
@@ -167,16 +188,15 @@ main {
     overflow: hidden !important;
 }
 
-/* .Sunday, */
-/* .Saturday, */
 .current-day,
 .current-time {
     /* background-color: #dfdfdf; */
     background-color: #c7c7c7;
 }
 .current-day.current-time {
-    background-color: #898989;
+    background-color: #ACACAC;
 }
+
 
 .header { 
     display: flex;
@@ -189,7 +209,6 @@ main {
     margin-right: 1%;
 }
 
-
 .header button {
     border: none;
     background-color: whitesmoke;
@@ -197,6 +216,15 @@ main {
     font-weight: 700;
 }
 
-.header button:hover {
+.header button:hover:enabled {
     color: darkgrey;
+}
+
+.italic {
+    font-size: 0.6rem !important;
+    font-style: italic;
+}
+
+.disabled {
+    background-color: #c7c7c7 !important;
 }

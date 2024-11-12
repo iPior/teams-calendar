@@ -13,4 +13,5 @@ Notes:
 - 30 minute activities will not display descriptions.
 - All data is stored locally in the browser for easy continued use.
 - Responsive design was not in mind, I wanted a project to showcase the JavaScript I had just learnt
+
 That's all, thanks! :)

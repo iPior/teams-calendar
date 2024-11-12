@@ -264,12 +264,6 @@ nextWeek.addEventListener('click', () => {
             else if (new Date(weeks[i+1].week) > new Date(week)) {
                 for (let input of currentDayInputs) {
                     input.style.backgroundColor = 'whitesmoke';
-                    // if (input.classList.contains("current-day") && input.classList.contains("current-time")) {
-                    //     input.style.backgroundColor = '#ACACAC';
-                    // }
-                    // else {
-                    //     input.style.backgroundColor = 'lightgray';
-                    // }
                 }
             }
 
@@ -317,12 +311,6 @@ lastWeek.addEventListener('click', () => {
                     if (input.classList.contains("current-day") && input.classList.contains("current-time")) {
                         input.style.backgroundColor = '#ACACAC';
                     }
-                    // if (input.tagName.toLowerCase() == 'span') {
-                        
-                    // }
-                    // else {
-                    //     input.style.backgroundColor = 'lightgray';
-                    // }
                 }
             }
 
@@ -491,7 +479,7 @@ activitySaveModalButton.addEventListener("click", () => {
                 secondInput.classList.remove("active");
                 secondInput.classList.add("hover");
                 secondInput.onclick = update;
-                secondInput.style.zIndex = "0";
+                secondInput.style.zIndex = "auto";
                 // Remove from active time slots and remove from local storage
                 activeTimeSlots.forEach(timeSlot => { 
                     if (timeSlot.id === secondInput.id){
@@ -660,6 +648,7 @@ activitySaveButton.addEventListener("click", () => {
     // If the hour period is selected we need to identify the next input to style
     if (activityDuration.value === "60-minutes") {
         const secondInput = document.getElementById(getNextInput(inputSelected.id));
+        console.log(secondInput)
         if (activeTimeSlots.includes(secondInput)){
             alert("Time slots overlap")
             return
@@ -781,10 +770,12 @@ const checkActiveColor = () => {
 }
 
 const getNextInput = (str) => {
+    
     let day = str.match(/^.*?-/i);
     let time = str.match(/\d{2}-\d{2}/)[0];
     let hour = Number(time.slice(0,2));
     let minute = time.slice(3,5);
+    let amPM = str.slice(-2);
 
     // If it a 30 minute mark, hour will have to increment
     if (minute === "30"){
@@ -792,7 +783,7 @@ const getNextInput = (str) => {
         minute = "00";
 
         // Keeping this in american time
-        if (hour > 12){
+        if (amPM === "PM"){
             hour = hour % 12;
             if (hour > 9){
                 return `${day}${hour}-${minute}-PM`;
@@ -808,10 +799,22 @@ const getNextInput = (str) => {
     }
     else {
         minute = "30";
-        if (hour > 9){
-            return `${day}${hour}-${minute}-${str.slice(-2)}`;
+
+        // Keeping this in american time
+        if (amPM === "PM"){
+            hour = hour % 12;
+            if (hour > 9){
+                return `${day}${hour}-${minute}-PM`;
+            }
+            return `${day}0${hour}-${minute}-PM`;
         }
-        return `${day}0${hour}-${minute}-${str.slice(-2)}`;
+        else {
+
+            if (hour > 9){
+                return `${day}${hour}-${minute}-${str.slice(-2)}`;
+            }
+            return `${day}0${hour}-${minute}-${str.slice(-2)}`;
+        }
     }
 }
 

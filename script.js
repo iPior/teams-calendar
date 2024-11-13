@@ -97,7 +97,7 @@ const createWeek = () => {
         }
     });
     taskData = weeklyData[currentWeek] || [];
-    calendarHeader.innerText = "Week of " + currentWeek;
+    calendarHeader.innerHTML = "<i class='fa-solid fa-calendar'></i>Week of " + currentWeek;
 
     // Creating columns to be days of the week, and rows to be 30-minute time slots
     const timeSlots = generateHoursInterval(60*7, 60 * 24, 30);
@@ -268,7 +268,7 @@ nextWeek.addEventListener('click', () => {
             }
 
             currentWeek = weeks[i+1].week
-            calendarHeader.innerText = "Week of " + currentWeek;
+            calendarHeader.innerHTML = "<i class='fa-solid fa-calendar'></i>Week of " + currentWeek;
             unloadOldStorage()
             if (!weeklyData[currentWeek]) {
                 weeklyData[currentWeek] = []
@@ -320,7 +320,7 @@ lastWeek.addEventListener('click', () => {
             }
 
             currentWeek = weeks[i-1].week
-            calendarHeader.innerText = "Week of " + currentWeek;
+            calendarHeader.innerHTML = "<i class='fa-solid fa-calendar'></i>Week of " + currentWeek;
             unloadOldStorage();
             if (!weeklyData[currentWeek]) {
                 weeklyData[currentWeek] = []
@@ -624,7 +624,7 @@ const deleteActivity = () => {
     closeModal();
 }
 
-activitySaveButton.addEventListener("click", () => {
+activitySaveButton.addEventListener("click", (e) => {
 
     const firstInput = document.getElementById(inputSelected.id);
     firstInput.onclick = '';
@@ -642,6 +642,7 @@ activitySaveButton.addEventListener("click", () => {
     }
 
     if (activityName.value.trim() === ""){
+        activityName.setCustomValidity("Please enter a title!");
         return
     }
 
@@ -734,7 +735,7 @@ const disableEnableInputs = (disabledBool) => {
 // Reset the values of inputs back to default
 const resetInputs = () => {
     setColorFromButton(greyButton); //Reset the color
-
+    
     activityName.value = "";
     activityDuration.value = "30-minutes"
     activityLocation.value = "";

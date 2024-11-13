@@ -31,8 +31,6 @@ main {
     
 }
 
-
-
 #calendar {
     display: grid;
     grid-template-columns: 9% repeat(7, 13%);
@@ -59,8 +57,6 @@ main {
 
 .rowHeader {
     text-align: end;
-    /* height: 60px; */
-    
     padding-right: 2%;
 }
 
@@ -202,10 +198,17 @@ main {
     display: flex;
     margin-bottom: 2%;
     justify-content: space-between;
+    align-items: center;
 }
 
 .header h1 {
     margin: 0;
+    margin-right: 1%;
+    display: flex;
+    align-items: center;
+    width: 85%;
+}
+.header h1 i {
     margin-right: 1%;
 }
 

@@ -7,21 +7,18 @@
     <title>Weekly Planner</title>
     <link rel="icon" href="imgs/calendar_icon.png"></link>
     
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link rel="stylesheet" href="CSS/style.css">
     <link rel="stylesheet" href="CSS/buttons.css">
     <link rel="stylesheet" href="CSS/modal.css">
+    <link rel="stylesheet" href="assets/fontawesome-free-6.6.0-web/css/all.css">
   </head>
   <body>
-    <header>
-        <!-- May not be required -->
-    </header>
     <main>
         <div class="header">
-          <h1 id="calendar-header"></h1>
+            <h1 id="calendar-header"></h1>
           <div id="week-buttons">
-            <button id="last-week" type="submit"><</button>
-            <button id="next-week" type="submit">></button>
+            <button id="last-week" type="submit"><i class='fa-solid fa-circle-left'></i></button>
+            <button id="next-week" type="submit"><i class='fa-solid fa-circle-right'></i></button>
           </div>
         </div>
         <div id="activity-form-div" class="hidden">
@@ -39,34 +36,32 @@
           </div>
           <form id="activity-form" class="grey hidden">
             <div class="div-row">
-              <img src="imgs/title.png" alt="title">
+              <label><i class="fa-solid fa-heading"></i></label>
               <input id="activity-name" type="text" placeholder="Add title" required/>
             </div>
             <div class="div-row">
-              <!-- <label for="activity-duration">Duration: </label> -->
-              <img src="imgs/duration.png" alt="Duration: ">
+              <label><i class="fa-solid fa-clock"></i></label>
               <select id="activity-duration" type="activity-times" required>
-              <!-- Possibly add 15 and 45min intervals later -->{
                 <option value="30-minutes" selected="selected">30 minutes</option>
-                <option value="60-minutes">60 minutes</option>}
+                <option value="60-minutes">60 minutes</option>
               </select>
             </div>
             <div class="div-row">
-              <img src="imgs/location.png" alt="Location: ">
+              <label><i class="fa-solid fa-location-dot"></i></label>
               <input class="" id="activity-location" type="text" placeholder="Add location"/>
             </div>
             <div class="div-row">
-              <img src="imgs/description.png" alt="description: ">
+              <label><i id="text-area-icon" class="fa-solid fa-comment"></i></label>
               <textarea id="activity-description" type="textbox" placeholder="Add description"></textarea>
             </div>
             <div class="div-row save-close-buttons">
-              <input class="" type="button" id="activity-submit" value="Save" />
-              <input class="hidden" type="button" id="activity-save" value="Save Changes" />
-              <input class="" type="button" id="activity-cancel" value="Cancel" />
-              <input class="hidden" type="button" id="activity-cancel-save" value="Cancel" />
-              <input class="hidden" type="button" id="activity-edit" value="Edit"/>
-              <input class="hidden" type="button" id="activity-delete" value="Delete"/>
-              <input class="hidden" type="button" id="activity-close" value="Close"/>
+              <button class="" type="submit" id="activity-submit"><i class="fa-solid fa-floppy-disk"></i>Save</button>
+              <button class="hidden" type="button" id="activity-save"><i class="fa-solid fa-floppy-disk"></i>Save Changes</button>
+              <button class="" type="button" id="activity-cancel"><i class="fa-solid fa-xmark"></i>Cancel</button>
+              <button class="hidden" type="button" id="activity-cancel-save"><i class="fa-solid fa-xmark"></i>Discard Changes</button>
+              <button class="hidden" type="button" id="activity-edit"><i class="fa-solid fa-pen-to-square"></i>Edit</button>
+              <button class="hidden" type="button" id="activity-delete"><i class="fa-solid fa-trash"></i>Delete</button>
+              <button class="hidden" type="button" id="activity-close"><i class="fa-solid fa-xmark"></i>Close</button>
             </div>
           </form>
         </div>
@@ -74,11 +69,6 @@
             <div id="first-col-spacer" class="sticky"></div>
         </div>
     </main>
-    <!-- <footer> -->
-        <!-- can add github, linkedIn and stuff -->
-        <!-- <p>Made by pior</p> -->
-        <!-- <a href="https://github.com/iPior" alt="github link"><p>GitHub: iPior</a></p> -->
-    <!-- </footer> -->
     <script src="script.js"></script>
   </body>
 </html>

@@ -6,6 +6,16 @@
     left: 25%;
 }
 
+@media (max-width: 1366px){
+    #activity-form-div {
+        top: 10%;
+    }
+    form button i {
+        /* align-items: center; */
+        text-align: center;
+    }
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -57,7 +67,6 @@ form .div-row:nth-last-child(2){
 
 form i {
     width: 32px;
-    height: 32px;
     font-size: 2rem;
     margin-right: 16px;
 }

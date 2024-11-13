@@ -9,10 +9,8 @@
 @media (max-width: 1366px){
     #activity-form-div {
         top: 10%;
-    }
-    form button i {
-        /* align-items: center; */
-        text-align: center;
+        width: 40%;
+        right: 25%;
     }
 }
 

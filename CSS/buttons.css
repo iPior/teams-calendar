@@ -1,174 +1,191 @@
-/* Add grey activity */
+*{
+    --light-red: #ffbfbf;
+    --light-orange: #ffd3ac;
+    --dark-orange: #ffa500;
+    --light-yellow: #ffea99;
+    --dark-yellow: #e0bc00;
+    --light-green: #ccffcc;
+    --light-blue: #b5c7eb;
+    --light-purple: #d3d3ff;
+    --dark-purple: #7f00ff;
+    --dark-pink: #ff8da1;
+}
+
 .grey-activity {
     background-color: lightgrey;
     border-left: 5px darkgray solid;
 }
 
 .red-activity {
-    background-color: #ffbfbf;
+    background-color: var(--light-red);
     border-left: 5px red solid;
 }
 
 .orange-activity {
-    background-color: #ffd3ac;
-    border-left: 5px #ffa500 solid;
+    background-color: var(--light-orange);
+    border-left: 5px var(--dark-orange) solid;
 }
 
 .yellow-activity {
-    background-color: #ffea99;
-    border-left: 5px #e0bc00 solid;
+    background-color: var(--light-yellow);
+    border-left: 5px var(--dark-yellow) solid;
 }
 
 .green-activity {
-    background-color: #ccffcc;
+    background-color: var(--light-green);
     border-left: 5px green solid;
 }
 
 .blue-activity {
-    background-color: #b5c7eb;
+    background-color: var(--light-blue);
     border-left: 5px blue solid;
 }
 
 .purple-activity {
-    background-color: #d3d3ff;
-    border-left: 5px #7f00ff solid;
+    background-color: var(--light-purple);
+    border-left: 5px var(--dark-purple) solid;
 }
 
 .pink-activity {
     background-color: pink;
-    border-left: 5px #ff8da1 solid;
+    border-left: 5px var(--dark-pink) solid;
 }
 
-#btn-group button {
-    /* font-weight: 400; */
-    padding: 10px 24px;
-    float: left;
-    border-radius: 20% 20% 0% 0%;
-    /* height: 100%; */
-    height: 40px;
-    width: 10%;
-    /* border-radius: 10%; */
-}
-
-#btn-group button:enabled {
-    cursor: pointer;
-}
-
-#btn-group-div {
+#btn-group-container {
     display: flex;
     text-align: center;
 
 }
 
-#btn-group button:hover:enabled {
-    /* background-color: lightgray !important; ; */
-    margin-top: 10px;
-    height: 30px !important;
-    transition: all .5s ease;
-    /* opacity: 100%; */
+#btn-group {
+
+    & button {
+        padding: 10px 24px;
+        float: left;
+        border-radius: 20% 20% 0% 0%;
+        height: 40px;
+        width: 10%;
+    }
+
+    & button:enabled {
+        cursor: pointer;
+    }
+
+    & button:hover:enabled {
+        margin-top: 10px;
+        height: 30px !important;
+        transition: all .5s ease;
+    }
+
+    & #grey:hover:enabled {
+        background-color: darkgrey !important;
+    }
+
+    & #red:hover:enabled {
+        background-color: red !important;
+    }
+
+    & #btn-group #orange:hover:enabled {
+        background-color: var(--dark-orange);
+    }
+
+    & #yellow:hover:enabled {
+        background-color: var(--dark-yellow) !important;
+    }
+
+    & #green:hover:enabled {
+        background-color: green !important;
+    }
+
+    & #blue:hover:enabled {
+        background-color: blue !important;
+        color: white;
+    }
+
+    & #purple:hover:enabled {
+        background-color: var(--dark-purple) !important;
+    }
+
+    & #pink:hover:enabled {
+        background-color: var(--dark-pink) !important;
+    }
 }
+
 
 .selected {
     margin-top: 10px;
     height: 30px !important;
-    /* padding-top: 10px; */
 }
 
 .grey {
     background-color: lightgrey;
     border: 2px solid darkgrey;
-    /* outline: 1px solid black; */
 }
 .selected.grey {
     background-color: darkgrey;
     border: 2px solid darkgrey;
-    /* border-bottom: none; */
-}
-#btn-group #grey:hover:enabled {
-    background-color: darkgrey !important;
 }
 
 .red {
-    background-color: #ffbfbf;
+    background-color: var(--light-red);
     border: 2px solid red;
 }
 .selected.red {
     background-color: red;
     border: 2px solid red;
 }
-#btn-group #red:hover:enabled {
-    background-color: red !important;
-}
 
 .orange {
-    background-color: #ffd3ac;
-    border: 2px solid #ffa500;
+    background-color: var(--light-orange);
+    border: 2px solid var(--dark-orange);
 }
 .selected.orange {
-    background-color: #ffa500;
-    border: 2px solid #ffa500;
-}
-#btn-group #orange:hover:enabled {
-    background-color: #ffa500;
+    background-color: var(--dark-orange);
+    border: 2px solid var(--dark-orange);
 }
 
+
 .yellow {
-    background-color: #ffea99;
-    border: 2px solid #e0bc00;
+    background-color: var(--light-yellow);
+    border: 2px solid var(--light-yellow);
 }
 .selected.yellow {
-    background-color: #e0bc00;
-    border: 2px solid #e0bc00;
-}
-#btn-group #yellow:hover:enabled {
-    background-color: #e0bc00 !important;
+    background-color: var(--light-yellow);
+    border: 2px solid var(--light-yellow);
 }
 
 .green {
-    background-color: #ccffcc;
+    background-color: var(--light-green);
     border: 2px solid green;
 }
 .selected.green {
     background-color: green;
     border: 2px solid green;
 }
-#btn-group #green:hover:enabled {
-    background-color: green !important;
-}
 
 .blue {
-    background-color: #b5c7eb;
+    background-color: var(--light-blue);
     border: 2px solid blue;
 }
 .selected.blue {
     background-color: blue;
     border: 2px solid blue;
 }
-#btn-group #blue:hover:enabled {
-    background-color: blue !important;
-    color: white;
-}
 
 .purple {
-    background-color: #d3d3ff;
-    border: 2px solid #7f00ff;
+    background-color: var(--light-purple);
+    border: 2px solid var(--dark-purple);
 }
 .selected.purple {
-    background-color: #7f00ff;
-    border: 2px solid #7f00ff;
-}
-#btn-group #purple:hover:enabled {
-    background-color: #7f00ff !important;
+    background-color: var(--dark-purple);
+    border: 2px solid var(--dark-purple);
 }
 
 .pink {
     background-color: pink;
-    border: 2px solid #ff8da1;
+    border: 2px solid var(--dark-pink);
 }
 .selected.pink {
-    background-color: #ff8da1;
-    border: 2px solid #ff8da1;
-}
-#btn-group #pink:hover:enabled {
-    background-color: #ff8da1 !important;
+    background-color: var(--dark-pink);
+    border: 2px solid var(--dark-pink);
 }

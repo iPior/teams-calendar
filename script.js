@@ -1,6 +1,6 @@
 const container = document.getElementById("calendar");
 const form = document.getElementById("activity-form");
-const formDiv = document.getElementById("activity-form-div");
+const formDiv = document.getElementById("activity-form-container");
 const calendarHeader = document.getElementById("calendar-header");
 const colHeaders = document.getElementsByClassName("colHeader");
 const lastWeek = document.getElementById("last-week");
@@ -314,11 +314,6 @@ lastWeek.addEventListener('click', () => {
                 }
             }
 
-            // If we are back on 
-            if (weeks[i-1].week === week) {
-                
-            }
-
             currentWeek = weeks[i-1].week
             calendarHeader.innerHTML = "<i class='fa-solid fa-calendar'></i>Week of " + currentWeek;
             unloadOldStorage();
@@ -349,7 +344,6 @@ const update = event => {
 
 const updateColumnHeaders = (week) => {
     const date = new Date(week);
-    let day = date.getDate(); 
     let counter = 1;
 
     for (let item of colHeaders) {
@@ -382,7 +376,6 @@ const openModal = () => {
     lastWeek.style.opacity ="5%";
     lastWeek.disabled = true;
 
-    // Disable elements
     disableElements();
     return
 };
@@ -407,10 +400,7 @@ const cancelModal = () => {
     lastWeek.style.opacity ="100%";
     lastWeek.disabled = false;
 
-    // Enable elements
     disableElements();
-
-    // Reset inputs
     resetInputs();
     
 }

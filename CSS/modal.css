@@ -1,18 +1,18 @@
-#activity-form-div {
-    width: 50%;
-    margin: auto;
-    position: absolute;
-    top: 20%;
-    left: 25%;
-}
-
 @media (max-width: 1366px){
-    #activity-form-div {
+    #activity-form-container {
         top: 10%;
         width: 40%;
         height: 50%;
         right: 25%;
     }
+}
+
+#activity-form-container {
+    width: 50%;
+    margin: auto;
+    position: absolute;
+    top: 20%;
+    left: 25%;
 }
 
 form {
@@ -23,86 +23,76 @@ form {
     border: 2px black solid;
     box-shadow: 0px 0px 5px 8px rgba(0, 0, 0, 0.12);
     padding: 8px;
-}
 
-form button,
-form input,
-form select,
-textarea,
-img {
-    font-size: 1.5rem;
-    width: 100%;
-    font-family: "Poppins", sans-serif;
-    padding: 6px;
-}
+    & button, 
+    input, 
+    select,
+    textarea,
+    img {
+        font-size: 1.5rem;
+        width: 100%;
+        font-family: "Poppins", sans-serif;
+        padding: 6px;
+    }
 
-form button{
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-}
+    & button{
+        display: flex;
+        align-items: center;
+        font-weight: 500;
 
-form button i {
-    margin-right: 4px;
-}
+        & i {
+            margin-right: 4px;
+        }        
+    }
 
+    & textarea {
+        resize: none;
+    }
 
-::placeholder {
-    color: #898989;
-  }
+    & label{
+        text-align: center;
+    }
 
-form .div-row {
-    display: flex;
-    margin-top: 2%;
-    align-items: center;
-    margin-left: 8px;
-    margin-right: 8px;
-}
+    & #btn-group-div {
+        margin-top: 2%;
+    }    
 
-form .div-row:nth-last-child(2){
-    align-items: start;
-}
+    & .row {
+        display: flex;
+        margin-top: 2%;
+        align-items: center;
+        margin-left: 8px;
+        margin-right: 8px;
+    }
 
-form i {
-    width: 32px;
-    font-size: 2rem;
-    margin-right: 16px;
-}
+    & .row:nth-last-child(2){
+        align-items: start;
+    }
 
-#text-area-icon{
-    margin-top: 4px;
-}
-
-form label{
-    text-align: center;
-}
-
-form #btn-group-div {
-    margin-top: 2%;
-}
-
-form textarea {
-    resize: none;
+    & i {
+        width: 32px;
+        font-size: 2rem;
+        margin-right: 16px;
+    }
 }
 
 .save-close-buttons {
     display: flex;
     justify-content: end;
+
+    & button,
+    input {
+        margin-bottom: 1%;
+        margin-left: 4px;
+        width: auto;
+        padding-left: 2%;
+        padding-right: 2%;
+    }
 }
 
-.save-close-buttons button,
-.save-close-buttons input {
-    margin-bottom: 1%;
-    margin-left: 4px;
-    width: auto;
-    padding-left: 2%;
-    padding-right: 2%;
+#text-area-icon{
+    margin-top: 4px;
 }
-
-#activity-delete {
-    /* color: darkred; */
-}
-
 
 #activity-description {
     height: 250px;
@@ -112,3 +102,7 @@ form textarea {
 #btn-group-div {
     display: flex;
 }
+
+::placeholder {
+    color: #898989;
+  }

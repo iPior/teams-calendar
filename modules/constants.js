@@ -4,6 +4,7 @@ export const form = document.getElementById("activity-form");
 export const formDiv = document.getElementById("activity-form-container");
 export const calendarHeader = document.getElementById("calendar-header");
 export const colHeaders = document.getElementsByClassName("colHeader");
+export const currentWeek = document.getElementById("current-week");
 export const lastWeek = document.getElementById("last-week");
 export const nextWeek = document.getElementById("next-week");
 

@@ -3,16 +3,11 @@ import {getNextInput, generateHoursInterval, resetInputs, setColorFromButton,
     disableEnableInputs, checkActiveColor, updateColumnHeaders, disableElements} from './modules/utilities.js';
 
 // Active variables
-let inputSelected = null;
-let currentTask = null;
-let currentWeek = null;
-let inputs = null;
-let currentDayInputs = null;
-let activeTimeSlots = [];
+let inputSelected = null; // Goes with modal stuff
+let currentTask = null; // Goes with modal stuff
 
 // Local storage data array
 const weeklyData = localStorage.getItem("weeklyData") ? JSON.parse(localStorage.getItem("weeklyData")) : {};
-let taskData = [];
 
 // Upon loading the window, create the calendar
 window.onload = () => {
@@ -22,12 +17,7 @@ window.onload = () => {
 
 // Create the calendar module
 const createWeek = () => {
-    
-    // Create the weeks array and the the current week
-    currentWeek = constants.weeks.find(weekStart => weekStart.week === constants.week)?.week || currentWeek;
-
-    taskData = weeklyData[currentWeek] || [];
-    constants.calendarHeader.innerHTML = "<i class='fa-solid fa-calendar'></i>Week of " + currentWeek;
+    constants.currentWeek.innerText = constants.week;
 
     // Creating columns to be days of the week, and rows to be 30-minute time slots
     const date = new Date();
@@ -48,11 +38,7 @@ const createWeek = () => {
         const hourTwo = currentTime.slice(0,2)
         const minuteTwo = Number(currentTime.slice(3,5))
         const amPmTwo = currentTime.slice(-2);
-
-        if (amPmOne === amPmTwo && hourOne === hourTwo) {
-            minuteTwo < 30 ? currentTimeApproximation = `${hourTwo}:00 ${amPmTwo}` : currentTimeApproximation = `${hourTwo}:30 ${amPmTwo}`; 
-        }
-        
+        if (amPmOne === amPmTwo && hourOne === hourTwo) minuteTwo < 30 ? currentTimeApproximation = `${hourTwo}:00 ${amPmTwo}` : currentTimeApproximation = `${hourTwo}:30 ${amPmTwo}`;
     });
 
     // Function to create a row
@@ -65,19 +51,16 @@ const createWeek = () => {
         else {
             title.day.toLowerCase() === constants.currentDay ? label.classList.add("colHeader", "sticky", title.day.toLowerCase(), "current-day") : label.classList.add("colHeader", "sticky", title.day.toLowerCase())
             label.innerHTML = `
-            <h6>${title.date < 10 ? '0' + title.date : title.date}</h6>
-            <p id="${constants.currentMonth}-${title.date}">${title.day}</p>
+                <h6>${title.date < 10 ? '0' + title.date : title.date}</h6>
+                <p id="${constants.currentMonth}-${title.date}">${title.day}</p>
             `;
         }
         constants.container.appendChild(label);
     }
 
-    // Create a header label for every day fo the week
-    daysOfTheWeek.forEach(createLabel, "col");
-
+    daysOfTheWeek.forEach(createLabel, "col"); // Create a header label for every day fo the week
     // Create a label for every timeSlot and  create an input for dayOfTheWeek
     timeSlots.forEach(time => {
-        
         createLabel(time, "row")
         daysOfTheWeek.forEach(day => {
             const input = document.createElement("span");
@@ -93,31 +76,24 @@ const createWeek = () => {
             constants.container.appendChild(input);
         })
     })
-
-    // Create element with all the spans that were created
-    inputs = document.querySelectorAll("span");
-    currentDayInputs = document.querySelectorAll(".current-day, .current-time");
 }
 
 // Takes the acitivites from the local storage and loads them onto the calendar
 const loadStorage = () => {
-    if (!taskData){
-        return
-    }
+    if (!weeklyData[constants.currentWeek.innerText]) return;
 
-    taskData.forEach(activity => {
+    weeklyData[constants.currentWeek.innerText]
+    .forEach(activity => {
         const input = document.getElementById(activity.id);
         input.classList.add("active");
         input.classList.remove("hover");
         input.onclick = '';
-        activeTimeSlots.push(input)
         if (activity.duration === "60-minutes"){
             const secondInput = document.getElementById(getNextInput(activity.id));
             secondInput.classList.add("active");
             secondInput.classList.remove("hover");
             secondInput.onclick = "";
             secondInput.style.zIndex = "-1";
-            activeTimeSlots.push(secondInput);
             input.innerHTML = `
             <div class="activity hour-long ${activity.color} click" >
                 <h4>${activity.name}</h4>
@@ -133,45 +109,37 @@ const loadStorage = () => {
             </div>`;
         }
     })
-
     document.querySelectorAll(".click").forEach(el => el.addEventListener("click", event => openActivity(event)));
 }
 
 const unloadOldStorage = () => {
+    if (!weeklyData[constants.currentWeek.innerText]) return;
 
-    taskData.forEach(activity => {
-        
+    weeklyData[constants.currentWeek.innerText]
+    .forEach(activity => {    
         const input = document.getElementById(activity.id);
         input.classList.remove("active");
         input.classList.add("hover");
         input.style.zIndex = "auto";
         input.onclick = openModal;
-
-        // Remove timeslot
-        activeTimeSlots = activeTimeSlots.filter(timeSlot => timeSlot.id !== input.id);
-
+        
         if (activity.duration === "60-minutes"){
             const secondInput = document.getElementById(getNextInput(activity.id));
-            activeTimeSlots = activeTimeSlots.filter(timeSlot => timeSlot.id !== secondInput.id);
             secondInput.classList.remove("active");
             secondInput.classList.add("hover");
             secondInput.onclick = openModal;
             secondInput.style.zIndex = "auto";
-            activeTimeSlots.push(secondInput); // remove this
-
-            input.innerHTML = ""
+            input.innerHTML = "";
         }
         else {
-            input.innerHTML = ""
+            input.innerHTML = "";
         }
-
     })
 }
 
 constants.nextWeek.addEventListener('click', () => {
-    if (constants.lastWeek.disabled){
-        constants.lastWeek.disabled = false;
-    }
+    let currentWeek = constants.currentWeek.innerText;
+    constants.lastWeek.disabled ? constants.lastWeek.disabled = false : null;
 
     for (let i = 0; i < constants.weeks.length - 1; i++) {
         constants.nextWeek.disabled = false;
@@ -179,57 +147,48 @@ constants.nextWeek.addEventListener('click', () => {
         if (constants.weeks[i].week === currentWeek) {
             // If we are back to the current OR future week, enable the inputs
             if (constants.weeks[i+1].week === constants.week) {
-                inputs.forEach(input => {
+                document.querySelectorAll("span").forEach(input => {
                     input.classList.remove('disabled');
                     input.classList.add('hover');
                     input.onclick = openModal;
                 });
             }
             else if (new Date(constants.weeks[i+1].week) > new Date(constants.week)) {
-                for (let input of currentDayInputs) {
+                for (let input of document.querySelectorAll(".current-day, .current-time")) {
                     input.style.backgroundColor = 'whitesmoke';
                 }
             }
 
             currentWeek = constants.weeks[i+1].week
-            constants.calendarHeader.innerHTML = "<i class='fa-solid fa-calendar'></i>Week of " + currentWeek;
             unloadOldStorage()
-            if (!weeklyData[currentWeek]) {
-                weeklyData[currentWeek] = []
-            }
-            taskData = weeklyData[currentWeek];
+            constants.currentWeek.innerText = currentWeek;
+            if (!weeklyData[currentWeek]) weeklyData[currentWeek] = [];
             updateColumnHeaders(currentWeek);
             loadStorage();
             
             // Disable buttons
-            if (constants.weeks[constants.weeks.length - 1].week === currentWeek){
-                constants.nextWeek.disabled = true;
-            }
+            if (constants.weeks[constants.weeks.length - 1].week === currentWeek) constants.nextWeek.disabled = true;
             return
         }
     }
-    
 });
 
 constants.lastWeek.addEventListener('click', () => {
-    
-    // If we are on the first week, disable the last week button
-    if (constants.nextWeek.disabled){
-        constants.nextWeek.disabled = false;
-    }
+    let currentWeek = constants.currentWeek.innerText;
+    constants.nextWeek.disabled ? constants.nextWeek.disabled = false : null;
 
     for (let i = 1; i < constants.weeks.length; i++) {
         if (constants.weeks[i].week === currentWeek) {
             // If we are on a week in the past, disable the inputs
             if (new Date(constants.weeks[i-1].week) < new Date(constants.week)) {
-                inputs.forEach(input => {
+                document.querySelectorAll("span").forEach(input => {
                     input.classList.remove('hover');
                     input.classList.add('disabled');
                     input.onclick = '';
                 });
             }
             else if (constants.weeks[i-1].week === constants.week) {
-                for (let input of currentDayInputs) {
+                for (let input of document.querySelectorAll(".current-day, .current-time")) {
                     input.style.backgroundColor = '#c7c7c7';
 
                     if (input.classList.contains("current-day") && input.classList.contains("current-time")) {
@@ -239,18 +198,15 @@ constants.lastWeek.addEventListener('click', () => {
             }
 
             currentWeek = constants.weeks[i-1].week
-            constants.calendarHeader.innerHTML = "<i class='fa-solid fa-calendar'></i>Week of " + currentWeek;
             unloadOldStorage();
-            if (!weeklyData[currentWeek]) {
-                weeklyData[currentWeek] = []
-            }
-            taskData = weeklyData[currentWeek];
+            constants.currentWeek.innerHTML = currentWeek;
+            if (!weeklyData[currentWeek]) weeklyData[currentWeek] = [];
             updateColumnHeaders(currentWeek);
             loadStorage();
-
+            
             // Disable buttons
             if (constants.weeks[0].week === currentWeek) {
-                lastWeek.disabled = true;
+                constants.lastWeek.disabled = true;
             }
             else if (constants.lastWeek.disabled) {
                 constants.lastWeek.disabled = false;
@@ -286,7 +242,7 @@ const openActivity = (event) => {
     // Open the modal
     openModal(event);
 
-    taskData.forEach(task => {
+    weeklyData[constants.currentWeek.innerText].forEach(task => {
         if (task.id === id){
             // Fill in inputs
             inputSelected = task.id;
@@ -307,9 +263,8 @@ const openActivity = (event) => {
     })
 };
 
-// Bring up the form 
  const openModal = (event) => {
-    inputSelected = event.target;
+    inputSelected = event.target;   
 
     // Show form
     constants.formDiv.classList.remove("hidden")
@@ -353,7 +308,7 @@ const cancelModal = () => {
 
     disableElements(false);
     resetInputs();
-}
+};
 
 const closeModal = () => {
 
@@ -373,23 +328,28 @@ const closeModal = () => {
     constants.activityDeleteButton.classList.add("hidden");
     constants.activityCloseButton.classList.add("hidden");
     cancelModal();
-}
+};
 
 constants.activityCancelButton.addEventListener("click", cancelModal);
 constants.activityCloseButton.addEventListener("click", closeModal);
 
 constants.activitySaveModalButton.addEventListener("click", () => {
+
+    if (constants.activityName.value.trim() === ""){
+        constants.activityName.setCustomValidity("Please enter a title!");
+        return
+    }
     const color = checkActiveColor();
     
     // Making changes in the local storage
-    weeklyData[currentWeek].forEach(tsk => {
+    weeklyData[constants.currentWeek.innerText].forEach(tsk => {
         if (tsk.id === currentTask.id) {
             const secondInput = document.getElementById(getNextInput(currentTask.id));
 
             // If we are modifying from 30 min to 60min or vice versa
             if (tsk.duration === "30-minutes" && constants.activityDuration.value === "60-minutes") {
                 
-                if (activeTimeSlots.includes(secondInput)){
+                if (secondInput.classList.contains("active")){
                     alert("Time slots overlap")
                     return
                 }
@@ -397,16 +357,13 @@ constants.activitySaveModalButton.addEventListener("click", () => {
                 secondInput.classList.remove("hover");
                 secondInput.onclick = "";
                 secondInput.style.zIndex = "-1";
-                activeTimeSlots.push(secondInput);
             }
             else if (tsk.duration === "60-minutes" && constants.activityDuration.value === "30-minutes") {
                 secondInput.classList.remove("active");
                 secondInput.classList.add("hover");
                 secondInput.onclick = openModal;
                 secondInput.style.zIndex = "auto";
-                // Remove from active time slots and remove from local storage
-                activeTimeSlots = activeTimeSlots.filter(timeSlot => timeSlot.id !== secondInput.id);
-                taskData = taskData.filter(task => task.id !== secondInput.id);
+                weeklyData[constants.currentWeek.innerText] = weeklyData[constants.currentWeek.innerText].filter(task => task.id !== secondInput.id);
             }
             tsk.name = constants.activityName.value;
             tsk.duration = constants.activityDuration.value;
@@ -441,11 +398,9 @@ constants.activityCancelSaveModalButton.addEventListener("click", () => {
     cancelModal();
 });
 
-constants.activitySaveButton.addEventListener("click", (e) => {
-
+constants.activitySaveButton.addEventListener("click", () => {
     const firstInput = document.getElementById(inputSelected.id);
     firstInput.onclick = '';
-
     const color = checkActiveColor();
 
     const activity = {
@@ -466,7 +421,7 @@ constants.activitySaveButton.addEventListener("click", (e) => {
     // If the hour period is selected we need to identify the next input to style
     if (constants.activityDuration.value === "60-minutes") {
         const secondInput = document.getElementById(getNextInput(inputSelected.id));
-        if (activeTimeSlots.includes(secondInput)){
+        if (secondInput.classList.contains("active")){
             alert("Time slots overlap")
             return
         }
@@ -477,7 +432,6 @@ constants.activitySaveButton.addEventListener("click", (e) => {
         firstInput.onclick = "";
         secondInput.onclick = "";
         secondInput.style.zIndex = "-1";
-        activeTimeSlots.push(firstInput,secondInput)
         firstInput.innerHTML = 
             `<div class="activity hour-long ${color} click">
                 <h4>${constants.activityName.value}</h4>
@@ -489,7 +443,6 @@ constants.activitySaveButton.addEventListener("click", (e) => {
         firstInput.classList.add("active")
         firstInput.classList.remove("hover")
         firstInput.onclick = ""
-        activeTimeSlots.push(firstInput)
         firstInput.innerHTML = `
             <div class="activity ${color} click" >
                 <h4>${constants.activityName.value}</h4>
@@ -497,11 +450,10 @@ constants.activitySaveButton.addEventListener("click", (e) => {
             </div>`;
     }
     firstInput.children[0].addEventListener("click", event => openActivity(event));
+    weeklyData[constants.currentWeek.innerText].push(activity)
+    localStorage.setItem("weeklyData", JSON.stringify(weeklyData))
     resetInputs()
     cancelModal();
-    taskData.push(activity)
-    weeklyData[currentWeek] = taskData;
-    localStorage.setItem("weeklyData", JSON.stringify(weeklyData))
 });
 
 constants.activityDeleteButton.addEventListener("click", () => {
@@ -514,38 +466,25 @@ constants.activityDeleteButton.addEventListener("click", () => {
         secondInput.classList.add("hover");
         secondInput.onclick = openModal;
         secondInput.style.zIndex = "0";
-        // Remove from active time slots and remove from local storage
-        activeTimeSlots = activeTimeSlots.filter(timeSlot => timeSlot.id !== secondInput.id);
-        taskData = taskData.filter(task => task.id !== secondInput.id);
+        weeklyData[constants.currentWeek.innerText] = weeklyData[constants.currentWeek.innerText].filter(task => task.id !== secondInput.id);
     }
 
     // Reset input
     input.classList.remove("active");
     input.classList.add("hover");
     input.onclick = openModal;
+    weeklyData[constants.currentWeek.innerText] = weeklyData[constants.currentWeek.innerText].filter(task => task.id !== input.id);
 
-    // Remove from active time slots and remove from local storage
-    activeTimeSlots = activeTimeSlots.filter(timeSlot => timeSlot.id !== input.id);
-    taskData = taskData.filter(task => task.id !== input.id);
-
-    // Update the local storage
-    weeklyData[currentWeek] = taskData;
-
-    if (weeklyData[currentWeek].length === 0){
-        delete(weeklyData[currentWeek]);
-    
-    }
+    if (weeklyData[constants.currentWeek.innerText].length === 0) delete(weeklyData[constants.currentWeek.innerText]);
     localStorage.setItem("weeklyData", JSON.stringify(weeklyData))
     
     // Delete div
     input.children[0].remove();
-    
-    // Close modal
     closeModal();
 });
 
 constants.activityEditButton.addEventListener("click", () => {
-   disableEnableInputs(false)
+    disableEnableInputs(false)
      // Show form
     constants.formDiv.classList.remove("hidden")
     constants.formDiv.style.zIndex = "1";

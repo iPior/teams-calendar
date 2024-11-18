@@ -14,7 +14,11 @@
   <body>
     <main>
         <header>
-            <h1 id="calendar-header"></h1>
+            <h1 id="calendar-header">
+              <i class='fa-solid fa-calendar'></i>
+              <p>Week of&nbsp;</p>
+              <p id="current-week"></p> 
+            </h1>
           <div id="week-buttons">
             <button id="last-week" type="submit"><i class='fa-solid fa-circle-left'></i></button>
             <button id="next-week" type="submit"><i class='fa-solid fa-circle-right'></i></button>
@@ -41,7 +45,7 @@
             </div>
             <div class="row">
               <label><i class="fa-solid fa-clock"></i></label>
-              <select id="activity-duration" type="activity-times" required>
+              <select id="activity-duration" type="activity-times">
                 <option value="30-minutes" selected="selected">30 minutes</option>
                 <option value="60-minutes">60 minutes</option>
               </select>
@@ -55,8 +59,8 @@
               <textarea id="activity-description" type="textbox" placeholder="Add description"></textarea>
             </div>
             <div class="row save-close-buttons">
-              <button type="submit" id="activity-submit"><i class="fa-solid fa-floppy-disk"></i>Save</button>
-              <button class="hidden" type="button" id="activity-save"><i class="fa-solid fa-floppy-disk"></i>Save Changes</button>
+              <button type="submit"  id="activity-submit"><i class="fa-solid fa-floppy-disk"></i>Save</button>
+              <button class="hidden" type="submit" id="activity-save"><i class="fa-solid fa-floppy-disk"></i>Save Changes</button>
               <button type="button" id="activity-cancel"><i class="fa-solid fa-xmark"></i>Cancel</button>
               <button class="hidden" type="button" id="activity-cancel-save"><i class="fa-solid fa-xmark"></i>Discard Changes</button>
               <button class="hidden" type="button" id="activity-edit"><i class="fa-solid fa-pen-to-square"></i>Edit</button>

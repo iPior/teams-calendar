@@ -70,6 +70,10 @@ header {
         & i {
             margin-right: 1%;
         }
+
+        & p {
+            margin: 0;
+        }
     }
 
     & button {
@@ -189,8 +193,6 @@ header {
 }
 
 .click {
-    /* height: 100%; */
-    /* width: 100%; */
     z-index: 2;
     overflow: hidden;
 }

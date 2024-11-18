@@ -91,7 +91,6 @@ const createWeek = () => {
     
     // Create the weeks array and the the current week
     weeks.forEach(weekStart => {
-
         if (weekStart.week === week) {
             currentWeek = week;
         }

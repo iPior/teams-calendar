@@ -3,16 +3,16 @@ import {getNextInput, generateHoursInterval, resetInputs, setColorFromButton,
     disableEnableInputs, checkActiveColor, updateColumnHeaders, disableElements} from './modules/utilities.js';
 
 // Active variables
-export let inputSelected = null;
-export let currentTask = null;
-export let currentWeek = null;
-export let inputs = null;
-export let currentDayInputs = null;
-export const activeTimeSlots = [];
+let inputSelected = null;
+let currentTask = null;
+let currentWeek = null;
+let inputs = null;
+let currentDayInputs = null;
+let activeTimeSlots = [];
 
 // Local storage data array
 const weeklyData = localStorage.getItem("weeklyData") ? JSON.parse(localStorage.getItem("weeklyData")) : {};
-export let taskData = [];
+let taskData = [];
 
 // Upon loading the window, create the calendar
 window.onload = () => {
@@ -24,11 +24,8 @@ window.onload = () => {
 const createWeek = () => {
     
     // Create the weeks array and the the current week
-    constants.weeks.forEach(weekStart => {
-        if (weekStart.week === constants.week) {
-            currentWeek = constants.week;
-        }
-    });
+    currentWeek = constants.weeks.find(weekStart => weekStart.week === constants.week)?.week || currentWeek;
+
     taskData = weeklyData[currentWeek] || [];
     constants.calendarHeader.innerHTML = "<i class='fa-solid fa-calendar'></i>Week of " + currentWeek;
 
@@ -159,19 +156,13 @@ const unloadOldStorage = () => {
         input.classList.add("hover");
         input.style.zIndex = "auto";
         input.onclick = update;
+
         // Remove timeslot
-        activeTimeSlots.forEach(timeSlot => { 
-            if (timeSlot.id === input.id){
-                activeTimeSlots.splice(activeTimeSlots.indexOf(timeSlot), 1);
-            }
-        });
+        activeTimeSlots = activeTimeSlots.filter(timeSlot => timeSlot.id !== input.id);
+
         if (activity.duration === "60-minutes"){
             const secondInput = document.getElementById(getNextInput(activity.id));
-            activeTimeSlots.forEach(timeSlot => { 
-                if (timeSlot.id === secondInput.id){
-                    activeTimeSlots.splice(activeTimeSlots.indexOf(timeSlot), 1);
-                }
-            });
+            activeTimeSlots = activeTimeSlots.filter(timeSlot => timeSlot.id !== secondInput.id);
             secondInput.classList.remove("active");
             secondInput.classList.add("hover");
             secondInput.onclick = update;
@@ -351,7 +342,7 @@ const openActivity = (event) => {
 };
 
 // cancel
- const cancelModal = () => {
+const cancelModal = () => {
 
     // Hide form
     constants.formDiv.classList.add("hidden")
@@ -375,8 +366,28 @@ const openActivity = (event) => {
     
 }
 
+const closeModal = () => {
+    //Disable the color buttons
+    constants.colorButtons.forEach(btn => btn.disabled = false);
+
+    // Disable the inputs
+    constants.activityName.disabled = false;
+    constants.activityDuration.disabled = false;
+    constants.activityLocation.disabled = false;
+    constants.activityDescription.disabled = false;
+
+    // Select the right buttons
+    constants.activitySaveButton.classList.remove("hidden");
+    constants.activityCancelButton.classList.remove("hidden");
+    constants.activityEditButton.classList.add("hidden");
+    constants.activityDeleteButton.classList.add("hidden");
+    constants.activityCloseButton.classList.add("hidden");
+    cancelModal();
+}
 
 constants.activityCancelButton.addEventListener("click", cancelModal);
+constants.activityCloseButton.addEventListener("click", closeModal);
+
 constants.activitySaveModalButton.addEventListener("click", () => {
     const color = checkActiveColor();
     
@@ -404,16 +415,8 @@ constants.activitySaveModalButton.addEventListener("click", () => {
                 secondInput.onclick = update;
                 secondInput.style.zIndex = "auto";
                 // Remove from active time slots and remove from local storage
-                activeTimeSlots.forEach(timeSlot => { 
-                    if (timeSlot.id === secondInput.id){
-                        activeTimeSlots.splice(activeTimeSlots.indexOf(timeSlot), 1);
-                    }
-                });
-                weeklyData[currentWeek].forEach(task => {
-                    if (task.id === secondInput.id){
-                        taskData.splice(taskData.indexOf(task), 1);
-                    }
-                })
+                activeTimeSlots = activeTimeSlots.filter(timeSlot => timeSlot.id !== secondInput.id);
+                taskData = taskData.filter(task => task.id !== secondInput.id);
             }
             tsk.name = constants.activityName.value;
             tsk.duration = constants.activityDuration.value;
@@ -527,17 +530,8 @@ constants.activityDeleteButton.addEventListener("click", () => {
         secondInput.onclick = update;
         secondInput.style.zIndex = "0";
         // Remove from active time slots and remove from local storage
-        activeTimeSlots.forEach(timeSlot => { 
-            if (timeSlot.id === secondInput.id){
-                activeTimeSlots.splice(activeTimeSlots.indexOf(timeSlot), 1);
-
-            }
-        });
-        taskData.forEach(task => {
-            if (task.id === secondInput.id){
-                taskData.splice(taskData.indexOf(task), 1);
-            }
-        })
+        activeTimeSlots = activeTimeSlots.filter(timeSlot => timeSlot.id !== secondInput.id);
+        taskData = taskData.filter(task => task.id !== secondInput.id);
     }
 
     // Reset input
@@ -546,44 +540,23 @@ constants.activityDeleteButton.addEventListener("click", () => {
     input.onclick = update;
 
     // Remove from active time slots and remove from local storage
-    activeTimeSlots.forEach(timeSlot => { 
-        if (timeSlot.id === input.id){
-            activeTimeSlots.splice(activeTimeSlots.indexOf(timeSlot), 1);
-        }
-    });
-    taskData.forEach(task => {
-        if (task.id === input.id){
-            taskData.splice(taskData.indexOf(task), 1);
-        }
-    })
+    activeTimeSlots = activeTimeSlots.filter(timeSlot => timeSlot.id !== input.id);
+    taskData = taskData.filter(task => task.id !== input.id);
+
     // Update the local storage
     weeklyData[currentWeek] = taskData;
-    localStorage.setItem("weeklyData", JSON.stringify(weeklyData))
 
+    if (weeklyData[currentWeek].length === 0){
+        delete(weeklyData[currentWeek]);
+    
+    }
+    localStorage.setItem("weeklyData", JSON.stringify(weeklyData))
+    
     // Delete div
     input.children[0].remove();
-
+    
     // Close modal
     closeModal();
-});
-
-constants.activityCloseButton.addEventListener("click", () => {
-    //Disable the color buttons
-    constants.colorButtons.forEach(btn => btn.disabled = false);
-
-    // Disable the inputs
-    constants.activityName.disabled = false;
-    constants.activityDuration.disabled = false;
-    constants.activityLocation.disabled = false;
-    constants.activityDescription.disabled = false;
-
-    // Select the right buttons
-    constants.activitySaveButton.classList.remove("hidden");
-    constants.activityCancelButton.classList.remove("hidden");
-    constants.activityEditButton.classList.add("hidden");
-    constants.activityDeleteButton.classList.add("hidden");
-    constants.activityCloseButton.classList.add("hidden");
-    cancelModal();
 });
 
 constants.activityEditButton.addEventListener("click", () => {

@@ -1,5 +1,5 @@
 code review
-- remove empty weeks from local storage
+- look at foreach statements and append fitler
 
 
 - Notes

@@ -1,6 +1,6 @@
 const container = document.getElementById("calendar");
 const form = document.getElementById("activity-form");
-const formDiv = document.getElementById("activity-form-div");
+const formDiv = document.getElementById("activity-form-container");
 const calendarHeader = document.getElementById("calendar-header");
 const colHeaders = document.getElementsByClassName("colHeader");
 const lastWeek = document.getElementById("last-week");
@@ -91,7 +91,6 @@ const createWeek = () => {
     
     // Create the weeks array and the the current week
     weeks.forEach(weekStart => {
-
         if (weekStart.week === week) {
             currentWeek = week;
         }
@@ -314,11 +313,6 @@ lastWeek.addEventListener('click', () => {
                 }
             }
 
-            // If we are back on 
-            if (weeks[i-1].week === week) {
-                
-            }
-
             currentWeek = weeks[i-1].week
             calendarHeader.innerHTML = "<i class='fa-solid fa-calendar'></i>Week of " + currentWeek;
             unloadOldStorage();
@@ -349,7 +343,6 @@ const update = event => {
 
 const updateColumnHeaders = (week) => {
     const date = new Date(week);
-    let day = date.getDate(); 
     let counter = 1;
 
     for (let item of colHeaders) {
@@ -382,7 +375,6 @@ const openModal = () => {
     lastWeek.style.opacity ="5%";
     lastWeek.disabled = true;
 
-    // Disable elements
     disableElements();
     return
 };
@@ -407,10 +399,7 @@ const cancelModal = () => {
     lastWeek.style.opacity ="100%";
     lastWeek.disabled = false;
 
-    // Enable elements
     disableElements();
-
-    // Reset inputs
     resetInputs();
     
 }
@@ -845,7 +834,7 @@ const disableElements = () => {
 /* Function to create an array of times with 30 minute intervals, 
 code from "https://gist.github.com/indexzero/6261ad9292c78cf3c5aa69265e2422bf". Modified for personal need.
 */
-const generateHoursInterval = (startHourInMinute, endHourInMinute, interval ) => {
+const generateHoursInterval = (startHourInMinute, endHourInMinute, interval) => {
     const times = [];
     for (let i = 0; startHourInMinute < 24 * 60; i++) {
         if (startHourInMinute > endHourInMinute) break;

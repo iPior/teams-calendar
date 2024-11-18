@@ -1,0 +1,35 @@
+code review
+- look at foreach statements and append fitler
+
+
+- Notes
+
+HTML
+That makes sense, changes implemented
+
+
+CSS
+I will look into BEM
+
+I actually just spent some time learning about SASS and thought the CSS nesting was neat. I did not know this was capable in vanilla CSS so i will go back
+and implement that to the code.
+
+I am interested in learning more about Tailwind. I have  experience using bootstrap personally but for this project 
+I chose to keep this project simple with just CSS. Projects going forward I will definitely be trying out tailwind. 
+
+I impelemnted variables for those hex colors
+
+Javascript
+This is interesting. I did intend on modularizing my JS I was just unsure how. My original thoughts were to go have a JS file per component but I used your 
+suggestions of initliaziation, event handlers, util functions. 
+
+
+My Notes:
+I did not make this site responsive, I just wanted to utlizize the javascript skills I had just learnt. Should I try to make this site responsive or move onto the
+React. 
+
+Can this project be included as part of my portfolio as I work towards finding a junior level frontend job?
+
+React vs Angular vs Vue, which do I start with??
+
+Should I learn typescript??

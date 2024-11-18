@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Weekly Planner</title>
     <link rel="icon" href="imgs/calendar_icon.png"></link>
-    
     <link rel="stylesheet" href="CSS/style.css">
     <link rel="stylesheet" href="CSS/buttons.css">
     <link rel="stylesheet" href="CSS/modal.css">
@@ -14,15 +13,16 @@
   </head>
   <body>
     <main>
-        <div class="header">
+        <header>
             <h1 id="calendar-header"></h1>
           <div id="week-buttons">
             <button id="last-week" type="submit"><i class='fa-solid fa-circle-left'></i></button>
             <button id="next-week" type="submit"><i class='fa-solid fa-circle-right'></i></button>
           </div>
-        </div>
-        <div id="activity-form-div" class="hidden">
-          <div id="btn-group-div">
+        </header>
+
+        <div id="activity-form-container" class="hidden">
+          <div id="btn-group-container">
             <div id="btn-group">
               <button class="grey selected" id="grey" value="grey"></button>
               <button class="red" id="red" value="red"></button>
@@ -35,29 +35,29 @@
             </div>
           </div>
           <form id="activity-form" class="grey hidden">
-            <div class="div-row">
+            <div class="row">
               <label><i class="fa-solid fa-pencil"></i></label>
               <input id="activity-name" type="text" placeholder="Add title" required/>
             </div>
-            <div class="div-row">
+            <div class="row">
               <label><i class="fa-solid fa-clock"></i></label>
               <select id="activity-duration" type="activity-times" required>
                 <option value="30-minutes" selected="selected">30 minutes</option>
                 <option value="60-minutes">60 minutes</option>
               </select>
             </div>
-            <div class="div-row">
+            <div class="row">
               <label><i class="fa-solid fa-location-dot"></i></label>
-              <input class="" id="activity-location" type="text" placeholder="Add location"/>
+              <input id="activity-location" type="text" placeholder="Add location"/>
             </div>
-            <div class="div-row">
+            <div class="row">
               <label><i id="text-area-icon" class="fa-solid fa-comment"></i></label>
               <textarea id="activity-description" type="textbox" placeholder="Add description"></textarea>
             </div>
-            <div class="div-row save-close-buttons">
-              <button class="" type="submit" id="activity-submit"><i class="fa-solid fa-floppy-disk"></i>Save</button>
+            <div class="row save-close-buttons">
+              <button type="submit" id="activity-submit"><i class="fa-solid fa-floppy-disk"></i>Save</button>
               <button class="hidden" type="button" id="activity-save"><i class="fa-solid fa-floppy-disk"></i>Save Changes</button>
-              <button class="" type="button" id="activity-cancel"><i class="fa-solid fa-xmark"></i>Cancel</button>
+              <button type="button" id="activity-cancel"><i class="fa-solid fa-xmark"></i>Cancel</button>
               <button class="hidden" type="button" id="activity-cancel-save"><i class="fa-solid fa-xmark"></i>Discard Changes</button>
               <button class="hidden" type="button" id="activity-edit"><i class="fa-solid fa-pen-to-square"></i>Edit</button>
               <button class="hidden" type="button" id="activity-delete"><i class="fa-solid fa-trash"></i>Delete</button>
@@ -69,6 +69,8 @@
             <div id="first-col-spacer" class="sticky"></div>
         </div>
     </main>
-    <script src="script.js"></script>
+    <script type="module" src="modules/constants.js"></script>
+    <script type="module" src="modules/utilities.js"></script>
+    <script type="module" src="main.js"></script>
   </body>
 </html>

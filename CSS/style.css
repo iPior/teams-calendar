@@ -5,6 +5,9 @@ html {
     font-family: "Poppins", sans-serif;
     font-weight: 500;
     --height: 60px;
+    --disabled: #c7c7c7;
+    --hover: #A0A0A0;
+    --current-day: #ACACAC;
     font-size: 16px;
 }
 @media (max-width: 900px){
@@ -24,11 +27,10 @@ body {
     height: 75%;
     margin: 5%  10% 0% 10%;
     background-color: whitesmoke;
-    /* overflow-y: hidden; */
 }
+
 span {
     height: var(--height);
-    /* overflow: hidden; */
 }
 
 h1 {
@@ -45,6 +47,43 @@ main {
     
 }
 
+.roboto-mono {
+    font-family: "Roboto Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+header { 
+    display: flex;
+    margin-bottom: 2%;
+    justify-content: space-between;
+    align-items: center;
+
+    & h1 {
+        margin: 0;
+        margin-right: 1%;
+        display: flex;
+        align-items: center;
+        width: 85%;
+
+        & i {
+            margin-right: 1%;
+        }
+    }
+
+    & button {
+        border: none;
+        background-color: whitesmoke;
+        font-size: 2.5rem;
+        font-weight: 700;
+    }
+
+    & button:hover:enabled {
+        color: darkgrey;
+    }
+}
+
 #calendar {
     display: grid;
     grid-template-columns: 9% repeat(7, 13%);
@@ -54,7 +93,6 @@ main {
     justify-content: center;
     overflow-x: auto;
     overflow-y: auto;
-    /* position: absolute; */
     z-index: 0;
 }
 
@@ -64,49 +102,37 @@ main {
     background-color: whitesmoke;
 } 
 
-.rowHeader, .colHeader {
-    background-color: lightgray !important;
-    
-}
-
-.rowHeader {
-    text-align: end;
-    padding-right: 2%;
-}
-
-.rowHeader p {
-    font-size: 0.75rem;
-}
 
 .colHeader{
+    background-color: lightgray !important;
     display: block;
     border-top: 2px solid black;
     border-right: 2px solid black;
     border-bottom: 2px solid black;
     padding: 4px;
+
+    & p {
+        margin: 0;
+        width: 100%;
+        font-size: 1rem;
+    }
+    & h6 {
+        margin: 0;
+        font-size: 1.75rem;
+    }
 }
 
-.colHeader p, .rowHeader p {
-    margin: 0;
-    width: 100%;
-}
-
-.colHeader h6 {
-    margin: 0;
-    font-size: 1.75rem;
-}
-.colHeader p {
-    font-size: 1rem;
-}
-
-.sticky {
-    position: sticky;
-    top: 0;
-}
-
-.rowHeader{
+.rowHeader {
+    background-color: lightgray !important;
+    text-align: end;
+    padding-right: 2%;
     border-left: 2px solid black;
     border-right: 2px solid black;
+    & p {
+        font-size: 0.75rem;
+        margin: 0;
+        width: 100%;
+    }
 }
 
 .rowHeader:nth-of-type(odd){
@@ -124,6 +150,10 @@ main {
     border-right: 2px solid black;
 }
 
+.timeslot:nth-last-of-type(-n + 7){
+    border-bottom: 2px solid black;
+}
+
 .activity {
     height: 100%;
     width: 92%;
@@ -139,23 +169,23 @@ main {
     -moz-hyphens: auto;
     hyphens: auto;
     overflow-y: hidden;
-    
+
+    & h4 {
+        margin: 0px 2px;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+    }
+
+    & p {
+        font-size: 0.65rem;
+        text-transform: capitalize;
+        margin: 0px 2px;
+    }
 }
 
 .hour-long.activity {
     height: 200% !important;
     overflow: hidden;
-}
-.activity h4 {
-    margin: 0px 2px;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-}
-
-.activity p {
-    font-size: 0.65rem;
-    text-transform: capitalize;
-    margin: 0px 2px;
 }
 
 .click {
@@ -163,16 +193,11 @@ main {
     width: 100%;
     z-index: 2;
     overflow: hidden;
-    /* background-color: purple; */
 }
 
-
-.timeslot:nth-last-of-type(-n + 7){
-    border-bottom: 2px solid black;
-}
 
 .hover:hover {
-    background-color: #A0A0A0 !important;
+    background-color: var(--hover) !important;
 }
 
 .half-hour-mark {
@@ -183,11 +208,9 @@ main {
     border-bottom: 1px solid black;
 }
 
-.roboto-mono {
-    font-family: "Roboto Mono", monospace;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-style: normal;
+.sticky {
+    position: sticky;
+    top: 0;
 }
 
 .hidden {
@@ -200,41 +223,11 @@ main {
 
 .current-day,
 .current-time {
-    /* background-color: #dfdfdf; */
-    background-color: #c7c7c7;
+    background-color: var(--disabled);
 }
+
 .current-day.current-time {
-    background-color: #ACACAC;
-}
-
-
-.header { 
-    display: flex;
-    margin-bottom: 2%;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.header h1 {
-    margin: 0;
-    margin-right: 1%;
-    display: flex;
-    align-items: center;
-    width: 85%;
-}
-.header h1 i {
-    margin-right: 1%;
-}
-
-.header button {
-    border: none;
-    background-color: whitesmoke;
-    font-size: 2.5rem;
-    font-weight: 700;
-}
-
-.header button:hover:enabled {
-    color: darkgrey;
+    background-color: var(--current-day);
 }
 
 .italic {
@@ -243,5 +236,5 @@ main {
 }
 
 .disabled {
-    background-color: #c7c7c7 !important;
+    background-color: var(--disabled) !important;
 }

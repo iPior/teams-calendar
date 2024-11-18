@@ -161,7 +161,7 @@ export const updateColumnHeaders = (week) => {
 export const disableElements = (bool) => {
     const inputs = document.querySelectorAll("span")
     bool ? 
-        inputs.forEach(el => el.classList.remove("hover")) :
-        inputs.forEach(el => el.classList.add("hover"));
+        inputs.forEach(el => el.classList.contains("active") ? null : el.classList.remove("hover")):
+        inputs.forEach(el => el.classList.contains("active") ? null : el.classList.add("hover"));
     return
 }

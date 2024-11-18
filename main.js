@@ -89,7 +89,7 @@ const createWeek = () => {
             day.day.toLowerCase() === constants.currentDay ? input.classList.add("current-day") : null;
             time === currentTimeApproximation ? input.classList.add("current-time") : null;
             input.ariaLabel = `${day.day.toLowerCase()}-${timeCleaned}`;
-            input.onclick = update;
+            input.onclick = openModal;
             constants.container.appendChild(input);
         })
     })
@@ -98,12 +98,6 @@ const createWeek = () => {
     inputs = document.querySelectorAll("span");
     currentDayInputs = document.querySelectorAll(".current-day, .current-time");
 }
-
-// Onchange to input, this function is called.
-const update = event => {
-    inputSelected = event.target;
-    openModal();
-};
 
 // Takes the acitivites from the local storage and loads them onto the calendar
 const loadStorage = () => {
@@ -125,21 +119,17 @@ const loadStorage = () => {
             secondInput.style.zIndex = "-1";
             activeTimeSlots.push(secondInput);
             input.innerHTML = `
-            <div class="activity hour-long ${activity.color}" >
-                <div class="click">
-                    <h4>${activity.name}</h4>
-                    <p class="italic">${activity.location}</p>
-                    <p>${activity.description}</p>
-                </div>
+            <div class="activity hour-long ${activity.color} click" >
+                <h4>${activity.name}</h4>
+                <p class="italic">${activity.location}</p>
+                <p>${activity.description}</p>
             </div>`;
         }
         else {
             input.innerHTML = `
-            <div class="activity ${activity.color}">
-                <div class="click">
-                    <h4>${activity.name}</h4>
-                    <p class="italic">${activity.location}</p>
-                </div>
+            <div class="activity ${activity.color} click">
+                <h4>${activity.name}</h4>
+                <p class="italic">${activity.location}</p>
             </div>`;
         }
     })
@@ -155,7 +145,7 @@ const unloadOldStorage = () => {
         input.classList.remove("active");
         input.classList.add("hover");
         input.style.zIndex = "auto";
-        input.onclick = update;
+        input.onclick = openModal;
 
         // Remove timeslot
         activeTimeSlots = activeTimeSlots.filter(timeSlot => timeSlot.id !== input.id);
@@ -165,7 +155,7 @@ const unloadOldStorage = () => {
             activeTimeSlots = activeTimeSlots.filter(timeSlot => timeSlot.id !== secondInput.id);
             secondInput.classList.remove("active");
             secondInput.classList.add("hover");
-            secondInput.onclick = update;
+            secondInput.onclick = openModal;
             secondInput.style.zIndex = "auto";
             activeTimeSlots.push(secondInput); // remove this
 
@@ -192,7 +182,7 @@ constants.nextWeek.addEventListener('click', () => {
                 inputs.forEach(input => {
                     input.classList.remove('disabled');
                     input.classList.add('hover');
-                    input.onclick = update;
+                    input.onclick = openModal;
                 });
             }
             else if (new Date(constants.weeks[i+1].week) > new Date(constants.week)) {
@@ -274,8 +264,8 @@ const openActivity = (event) => {
     let id = null;
     // Check if we are modifying the right element
     (event.target.matches("h4") || event.target.matches("p")) ?
-    id = event.target.parentElement.parentElement.parentElement.id :
-    id = event.target.parentElement.parentElement.id;
+    id = event.target.parentElement.parentElement.id :
+    id = event.target.parentElement.id;
     
     // Disable the inputs
     constants.activityName.disabled = true;
@@ -294,7 +284,7 @@ const openActivity = (event) => {
     constants.activityCloseButton.classList.remove("hidden");
     
     // Open the modal
-    openModal();
+    openModal(event);
 
     taskData.forEach(task => {
         if (task.id === id){
@@ -318,7 +308,8 @@ const openActivity = (event) => {
 };
 
 // Bring up the form 
- const openModal = () => {
+ const openModal = (event) => {
+    inputSelected = event.target;
 
     // Show form
     constants.formDiv.classList.remove("hidden")
@@ -341,7 +332,6 @@ const openActivity = (event) => {
     return
 };
 
-// cancel
 const cancelModal = () => {
 
     // Hide form
@@ -363,11 +353,11 @@ const cancelModal = () => {
 
     disableElements(false);
     resetInputs();
-    
 }
 
 const closeModal = () => {
-    //Disable the color buttons
+
+    // Disable the color buttons
     constants.colorButtons.forEach(btn => btn.disabled = false);
 
     // Disable the inputs
@@ -412,7 +402,7 @@ constants.activitySaveModalButton.addEventListener("click", () => {
             else if (tsk.duration === "60-minutes" && constants.activityDuration.value === "30-minutes") {
                 secondInput.classList.remove("active");
                 secondInput.classList.add("hover");
-                secondInput.onclick = update;
+                secondInput.onclick = openModal;
                 secondInput.style.zIndex = "auto";
                 // Remove from active time slots and remove from local storage
                 activeTimeSlots = activeTimeSlots.filter(timeSlot => timeSlot.id !== secondInput.id);
@@ -489,12 +479,10 @@ constants.activitySaveButton.addEventListener("click", (e) => {
         secondInput.style.zIndex = "-1";
         activeTimeSlots.push(firstInput,secondInput)
         firstInput.innerHTML = 
-            `<div class="activity hour-long ${color}">
-                <div class="click">
+            `<div class="activity hour-long ${color} click">
                 <h4>${constants.activityName.value}</h4>
                 <p class="italic">${constants.activityLocation.value}</p>
                 <p>${constants.activityDescription.value}</p>
-                </div>
             </div>`;
     }
     else {
@@ -503,20 +491,17 @@ constants.activitySaveButton.addEventListener("click", (e) => {
         firstInput.onclick = ""
         activeTimeSlots.push(firstInput)
         firstInput.innerHTML = `
-            <div class="activity ${color}" >
-                <div class="click">
+            <div class="activity ${color} click" >
                 <h4>${constants.activityName.value}</h4>
                 <p class="italic">${constants.activityLocation.value}</p>
-                </div>
             </div>`;
     }
-    firstInput.children[0].children[0].addEventListener("click", event => openActivity(event));
+    firstInput.children[0].addEventListener("click", event => openActivity(event));
     resetInputs()
     cancelModal();
     taskData.push(activity)
     weeklyData[currentWeek] = taskData;
     localStorage.setItem("weeklyData", JSON.stringify(weeklyData))
-    
 });
 
 constants.activityDeleteButton.addEventListener("click", () => {
@@ -527,7 +512,7 @@ constants.activityDeleteButton.addEventListener("click", () => {
         const secondInput = document.getElementById(getNextInput(input.id));
         secondInput.classList.remove("active");
         secondInput.classList.add("hover");
-        secondInput.onclick = update;
+        secondInput.onclick = openModal;
         secondInput.style.zIndex = "0";
         // Remove from active time slots and remove from local storage
         activeTimeSlots = activeTimeSlots.filter(timeSlot => timeSlot.id !== secondInput.id);
@@ -537,7 +522,7 @@ constants.activityDeleteButton.addEventListener("click", () => {
     // Reset input
     input.classList.remove("active");
     input.classList.add("hover");
-    input.onclick = update;
+    input.onclick = openModal;
 
     // Remove from active time slots and remove from local storage
     activeTimeSlots = activeTimeSlots.filter(timeSlot => timeSlot.id !== input.id);

@@ -835,7 +835,7 @@ const disableElements = () => {
 /* Function to create an array of times with 30 minute intervals, 
 code from "https://gist.github.com/indexzero/6261ad9292c78cf3c5aa69265e2422bf". Modified for personal need.
 */
-const generateHoursInterval = (startHourInMinute, endHourInMinute, interval ) => {
+const generateHoursInterval = (startHourInMinute, endHourInMinute, interval) => {
     const times = [];
     for (let i = 0; startHourInMinute < 24 * 60; i++) {
         if (startHourInMinute > endHourInMinute) break;

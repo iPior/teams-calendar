@@ -18,8 +18,10 @@ const createWeek = () => {
     const daysOfTheWeek = [];
     let startOfTheWeek = new Date(constants.newDate).getDate();
     for (let i = 0; i<7; i++){
-        date.setDate(startOfTheWeek + i);
-        daysOfTheWeek.push({date: Number(date.getDate()), day: new Intl.DateTimeFormat("en-US", {weekday: 'long'}).format(date)});
+        let tempDate = new Date(constants.newDate); // Clone the start of the week
+        tempDate.setDate(constants.newDate.getDate() + i); // Add days incrementally
+        
+        daysOfTheWeek.push({date: Number(tempDate.getDate()), day: new Intl.DateTimeFormat("en-US", {weekday: 'long'}).format(tempDate)});
     }
 
     // Getting the current time approximation 

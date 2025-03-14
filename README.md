@@ -34,13 +34,13 @@ The primary goals of this project are to:
 ## Screenshots
 
 > Clean Slate<br/>
-![Image](https://github.com/user-attachments/assets/f0d28210-4d0b-4361-bd5d-82f7ab5caef4)
-
-> Modal <br/>
 ![Image](https://github.com/user-attachments/assets/e937e7c1-3860-42d8-af6b-093e60dd2e58)
 
-> Busy Calendar <br/>
+> Modal <br/>
 ![Image](https://github.com/user-attachments/assets/1830a48f-7eaf-4ba9-a68c-6ed71168ff8b)
+
+> Busy Calendar <br/>
+![Image](https://github.com/user-attachments/assets/f0d28210-4d0b-4361-bd5d-82f7ab5caef4)
 
 ## Deployment
 
